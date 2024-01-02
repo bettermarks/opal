@@ -17,15 +17,16 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<div align="right">
-    <img src="images/eu_funded.png" alt="EU funded project" width="250" align="right">
+<p align="center">
+    <img src="images/eu_funded.png" alt="EU funded project" width="400" align="right">
   <img src="images/logo_opal.png" alt="Logo" width="200" align="right">
  
-</div>
+</p>
 
-# Project Name
+# OPAL
+Open Adaptive Licensing
 
-### open
+### Open
 OPAL is committed to being an open solution, embracing transparency, collaboration and fostering a community where developers and organizations can work together to improve and customize the licensing service to meet their unique needs.
 
 ### Adaptive

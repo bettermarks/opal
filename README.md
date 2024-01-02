@@ -19,7 +19,7 @@
 
 <div align="right">
     <img src="images/eu_funded.png" alt="EU funded project" width="250" align="right">
-  <img src="images/logo_opal.png" alt="Logo" width="150" align="right">
+  <img src="images/logo_opal.png" alt="Logo" width="200" align="right">
  
 </div>
 

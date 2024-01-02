@@ -25,7 +25,9 @@
 
 # Project Name
 
-<b>open</b> - OPAL is open-source to be reused by everyone who needs an hierarchy based licesning service. <br>
+### open
+OPAL is open-source to be reused by everyone who needs an hierarchy based licesning service.
+
 <b>Adaptive</b> - OPAL is adaptive to serve different license models of your products as well as to be integrated in different hierarchies within your customer landscape. <br>
 <b>Licensing</b> - At its core, OPAL is a comprehensive licensing service designed to simplify and manage the licensing of digital products. <br>
 

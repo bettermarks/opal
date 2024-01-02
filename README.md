@@ -17,15 +17,18 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<div align="right">
-    <img src="images/eu_funded.png" alt="EU funded project" width="250" align="right">
-  <img src="images/logo_opal.png" alt="Logo" width="200" align="right">
- 
-</div>
 
-# Project Name
+<img src="images/eu_funded.png" alt="EU funded project" width="200" align="right">
+<img src="images/logo_opal.png" alt="OPAL - Open Adaptive Licensing" width="400" align="center">
 
-Hierarchical Licensing 
+### Open
+OPAL is committed to being an open solution, embracing transparency, collaboration and fostering a community where developers and organizations can work together to improve and customize the licensing service to meet their unique needs.
+
+### Adaptive
+OPAL is adaptive to serve different license models of digital products as well as to different hierarchies within your customer landscape.
+
+### Licensing
+At its core, OPAL is a comprehensive licensing service designed to simplify and manage the licensing of digital products.
 
 <div align="right">
  </div>
@@ -123,10 +126,10 @@ We build a licensing service which combines the need of licensing on different l
 
 # Table of Contents
 
-<a href="#installation">Installation</a>
-<a href="#usage">Usage</a>
-<a href="#documentation">Documentation</a>
-<a href="#license">License</a>
+<a href="#installation">Installation</a><br>
+<a href="#usage">Usage</a><br>
+<a href="#documentation">Documentation</a><br>
+<a href="#license">License</a><br>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -248,48 +251,9 @@ $ command-to-run-software [options]
 The concept for implementing such a License Manager can be found here:
 [License Manager concept](./docs/concept.md)
 
-A sequence diagram describing some kind of 'purchasing a license' process and 'redeeming a license'
-process can be found here:
-[Purchasing and redeeming process](./docs/purchase_redeem_process.md)
-
 ## Token Concept
 
-We also describe two architecture models for client-service communication here.
-[Client Service Communication](./docs/service-communication.md)
-
 ## Data Model
-This is the currently imple,ented data model:
-[License Manager data model](./docs/license-manager-ERD-2023-02-6.svg)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- NO Contributing in v1
-
-# Contributing
-
-[Explain how others can contribute to your project. This section can include information about how to report issues, how to propose new features, and the process for submitting pull requests.]
-Development Setup
-
-[Provide information on setting up a development environment, including any specific tools, libraries, or configurations.]
-
-# Example development setup steps
-
-$ git clone [repository-url]
-$ cd [project-directory]
-$ npm install --dev
-
-Pull Request Process
-
-    Fork the repository.
-    Create a new branch for the feature or bug fix.
-    Make your changes and test thoroughly.
-    Ensure that your code adheres to the project's coding standards.
-    Create a pull request, providing a detailed description of your changes.
--->
-
-Code Style
-
-How we code?
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -302,20 +266,19 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 <!-- ROADMAP -->
 # Roadmap
 
-- [x] initinal Open Source Release
+- [x] OPAL first public release Open Source Release
 - [ ] Add LicenseConnect Interface <a href="https://licenceconnect.schule/">LicenseConnect Project (german)</a>
 
-See the [open issues](https://github.com/bettermarks/licensing/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/bettermarks/opal/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- CONTACT -->
 # Contact
 
 Bettermarks GmbH, Berlin - kontakt@bettermarks.com
 
-Project Link: [https://github.com/bettermarks/licensing/](https://github.com/bettermarks/licensing/)
+Project Link: [https://github.com/bettermarks/opal/](https://github.com/bettermarks/opal/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -334,17 +297,17 @@ Here are some resources we find helpful and would like to give credit to.
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 <!-- 
-[contributors-shield]: https://img.shields.io/github/contributors/bettermarks/licensing.svg?style=for-the-badge
-[contributors-url]: https://github.com/bettermarks/licensing/graphs/contributors
+[contributors-shield]: https://img.shields.io/github/contributors/bettermarks/opal.svg?style=for-the-badge
+[contributors-url]: https://github.com/bettermarks/opal/graphs/contributors
 -->
-[forks-shield]: https://img.shields.io/github/forks/bettermarks/licensing.svg?style=for-the-badge
-[forks-url]: https://github.com/bettermarks/licensing/network/members
-[stars-shield]: https://img.shields.io/github/stars/bettermarks/licensing.svg?style=for-the-badge
-[stars-url]: https://github.com/bettermarks/licensing/stargazers
-[issues-shield]: https://img.shields.io/github/issues/bettermarks/licensing.svg?style=for-the-badge
-[issues-url]: https://github.com/bettermarks/licensing/issues
-[license-shield]: https://img.shields.io/github/license/bettermarks/licensing.svg?style=for-the-badge
-[license-url]: https://github.com/bettermarks/licensing/blob/master/LICENSE.txt
+[forks-shield]: https://img.shields.io/github/forks/bettermarks/opal.svg?style=for-the-badge
+[forks-url]: https://github.com/bettermarks/opal/network/members
+[stars-shield]: https://img.shields.io/github/stars/bettermarks/opal.svg?style=for-the-badge
+[stars-url]: https://github.com/bettermarks/opal/stargazers
+[issues-shield]: https://img.shields.io/github/issues/bettermarks/opal.svg?style=for-the-badge
+[issues-url]: https://github.com/bettermarks/opal/issues
+[license-shield]: https://img.shields.io/github/license/bettermarks/opal.svg?style=for-the-badge
+[license-url]: https://github.com/bettermarks/opal/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/bettermarks-gmbh
 [Python]: https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=Python&logoColor=4B8BBE

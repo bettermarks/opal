@@ -11,19 +11,18 @@
 
 [![Contributors][contributors-shield]][contributors-url]
 -->
-<div>
-    <div>
-        [![Forks][forks-shield]][forks-url]
-        [![Stargazers][stars-shield]][stars-url]
-        [![Issues][issues-shield]][issues-url]
-        [![MIT License][license-shield]][license-url]
-        [![LinkedIn][linkedin-shield]][linkedin-url]
-        <img src="images/eu_funded.png" alt="EU funded project" width="200">
-    </div>
+
+ [![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+ <img src="images/eu_funded.png" alt="EU funded project" width="200">
+
     <div>
         <img src="images/logo_opal.png" alt="OPAL - Open Adaptive Licensing" width="400" align="center">
     </div>
-</div>
+
 
 ### Open
 OPAL is committed to being an open solution, embracing transparency, collaboration and fostering a community where developers and organizations can work together to improve and customize the licensing service to meet their unique needs.

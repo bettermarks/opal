@@ -11,14 +11,14 @@
 
 [![Contributors][contributors-shield]][contributors-url]
 -->
-
+<p valign="top">
  [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
  <img src="images/eu_funded.png" alt="EU funded project" width="200">
-
+</p>
 <p align="center">
     <img src="images/logo_opal.png" alt="OPAL - Open Adaptive Licensing" width="400">
  </p>

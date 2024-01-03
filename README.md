@@ -307,7 +307,7 @@ Here are some resources we find helpful and would like to give credit to.
 [issues-shield]: https://img.shields.io/github/issues/bettermarks/opal.svg?style=for-the-badge
 [issues-url]: https://github.com/bettermarks/opal/issues
 [license-shield]: https://img.shields.io/github/license/bettermarks/opal.svg?style=for-the-badge
-[license-url]: https://github.com/bettermarks/opal/blob/master/LICENSE.txt
+[license-url]: https://github.com/bettermarks/opal/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/bettermarks-gmbh
 [Python]: https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=Python&logoColor=4B8BBE

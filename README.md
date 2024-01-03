@@ -16,9 +16,8 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
-
-<img src="images/eu_funded.png" alt="EU funded project" width="200" align="right">
+<img src="images/eu_funded.png" alt="EU funded project" width="200">
+<br>
 <img src="images/logo_opal.png" alt="OPAL - Open Adaptive Licensing" width="400" align="center">
 
 ### Open

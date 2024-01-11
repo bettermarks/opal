@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools >= 41.2.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.0.0"
+tag_format = "$version"
+
+version_files = [
+    "VERSION",
+	"setup.py:version",
+	"src/services/licensing/__init__.py"
+]
+
+[tool.black]
+line-length = 88

@@ -39,7 +39,7 @@ At its core, OPAL is a comprehensive licensing service designed to simplify and 
 ```mermaid
 flowchart LR
      subgraph Integration Scenario
-      subgraph License Hub
+      subgraph OPAL
         direction TB
         PAPI(Permission API - auto-redeem)
         LAPI(License API)

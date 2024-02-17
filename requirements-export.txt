@@ -10,15 +10,15 @@ cffi==1.16.0
     # via
     #   cryptography
     #   pynacl
-cryptography==41.0.5
+cryptography==42.0.2
     # via paramiko
 dnspython==2.4.2
     # via pymongo
 motor==3.3.1
-    # via -r requirements-bettermarks.in
+    # via -r requirements-export.in
 paramiko==3.3.1
     # via
-    #   -r requirements-bettermarks.in
+    #   -r requirements-export.in
     #   sshtunnel
 pycparser==2.21
     # via cffi
@@ -27,4 +27,4 @@ pymongo==4.5.0
 pynacl==1.5.0
     # via paramiko
 sshtunnel==0.4.0
-    # via -r requirements-bettermarks.in
+    # via -r requirements-export.in

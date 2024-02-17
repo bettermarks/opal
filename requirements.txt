@@ -39,7 +39,7 @@ click==8.1.7
     # via
     #   -r requirements.in
     #   uvicorn
-cryptography==41.0.5
+cryptography==42.0.2
     # via
     #   -r requirements.in
     #   jwcrypto

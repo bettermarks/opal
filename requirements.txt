@@ -71,7 +71,7 @@ httptools==0.6.1
     # via -r requirements.in
 httpx==0.25.2
     # via -r requirements.in
-idna==3.4
+idna==3.7
     # via
     #   anyio
     #   httpx

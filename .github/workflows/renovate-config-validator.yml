@@ -1,0 +1,12 @@
+name: "Validate renovate config"
+on:
+  push:
+    paths:
+      - renovate.json
+
+jobs:
+  renovate-config-validator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bettermarks/renovate-config/validator@main

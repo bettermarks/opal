@@ -1,0 +1,7 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>bettermarks/renovate-config:javascript",
+    "github>bettermarks/renovate-config:python"
+  ]
+}

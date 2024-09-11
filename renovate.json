@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>bettermarks/renovate-config:javascript",
+    "github>bettermarks/renovate-config:python"
+  ],
+  "constraints": {
+    "python": "==3.11"
+  },
+  "packageRules": [
+    {
+      "description": "Automerge non-major updates",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "rebaseWhen": "auto"
+    }
+  ]
+}

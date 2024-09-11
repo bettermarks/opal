@@ -25,11 +25,11 @@
     "utility-types": "^3.10.0"
   },
   "devDependencies": {
-    "@types/jest": "27.5.2",
+    "@types/jest": "28.1.8",
     "@types/node": "^18.18.4",
     "cdk8s-cli": "^2.1.144",
-    "jest": "^27.0.0",
-    "ts-jest": "^27.0.0",
+    "jest": "^28.0.0",
+    "ts-jest": "^28.0.0",
     "typescript": "^4.9.4"
   }
 }

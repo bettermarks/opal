@@ -63,7 +63,7 @@ colorama==0.4.6
     # via
     #   commitizen
     #   pytest-watch
-commitizen==3.12.0
+commitizen==3.29.0
     # via -r requirements-dev.in
 coverage[toml]==7.6.1
     # via pytest-cov
@@ -120,8 +120,6 @@ idna==3.4
     #   httpx
     #   requests
     #   yarl
-importlib-metadata==6.11.0
-    # via commitizen
 iniconfig==2.0.0
     # via pytest
 jinja2==3.1.4
@@ -257,5 +255,3 @@ yarl==1.9.2
     # via
     #   -r requirements.txt
     #   aiohttp
-zipp==3.20.1
-    # via importlib-metadata

@@ -6,7 +6,7 @@ click==8.1.7
 cryptography==41.0.5
 elastic-apm==6.19.0
 fastapi==0.104.1
-fastapi-pagination==0.12.14
+fastapi-pagination==0.12.27
 httptools==0.6.1
 httpx==0.25.2
 jwcrypto==1.5.0

@@ -71,10 +71,8 @@ ecs-logging==2.1.0
 elastic-apm==6.19.0
     # via -r requirements.txt
 fastapi==0.104.1
-    # via
-    #   -r requirements.txt
-    #   fastapi-pagination
-fastapi-pagination==0.12.14
+    # via -r requirements.txt
+fastapi-pagination==0.12.27
     # via -r requirements.txt
 frozenlist==1.4.0
     # via

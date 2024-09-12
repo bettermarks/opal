@@ -1,5 +1,5 @@
 aiohttp==3.8.6
-alembic==1.12.1
+alembic==1.13.2
 asgi-correlation-id==4.2.0
 asyncpg==0.28.0
 click==8.1.7

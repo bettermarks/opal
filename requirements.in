@@ -16,6 +16,6 @@ python-decouple==3.8
 pytz==2024.2
 pyyaml==6.0.2
 requests==2.31.0
-SQLAlchemy[asyncio]==2.0.23
+SQLAlchemy[asyncio]==2.0.34
 structlog==24.4.0
 uvicorn==0.23.2

@@ -20,7 +20,7 @@
     "cdk8s": "^2.6.36",
     "cdk8s-plus-27": "^2.6.0",
     "constructs": "^10.1.194",
-    "prettier": "^3.0.0",
+    "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
     "utility-types": "^3.10.0"
   },

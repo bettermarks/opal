@@ -89,7 +89,7 @@ multidict==6.0.4
     #   yarl
 pycparser==2.21
     # via cffi
-pydantic==1.10.13
+pydantic==1.10.18
     # via
     #   -r requirements.in
     #   fastapi

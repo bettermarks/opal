@@ -164,7 +164,7 @@ pycparser==2.21
     # via
     #   -r requirements.txt
     #   cffi
-pydantic==1.10.13
+pydantic==1.10.18
     # via
     #   -r requirements.txt
     #   fastapi

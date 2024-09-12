@@ -100,7 +100,7 @@ python-decouple==3.8
     # via -r requirements.in
 pytz==2024.2
     # via -r requirements.in
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via -r requirements.in
 requests==2.31.0
     # via -r requirements.in

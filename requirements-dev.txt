@@ -198,7 +198,7 @@ python-decouple==3.8
     # via -r requirements.txt
 pytz==2024.2
     # via -r requirements.txt
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via
     #   -r requirements.txt
     #   commitizen

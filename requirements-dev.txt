@@ -82,7 +82,7 @@ ecs-logging==2.1.0
     # via
     #   -r requirements.txt
     #   elastic-apm
-elastic-apm==6.19.0
+elastic-apm==6.23.0
     # via -r requirements.txt
 fastapi==0.104.1
     # via

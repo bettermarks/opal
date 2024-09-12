@@ -1,4 +1,4 @@
 -r requirements.txt
-motor==3.3.1
+motor==3.5.1
 paramiko==3.3.1
 sshtunnel==0.4.0

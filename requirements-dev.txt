@@ -169,7 +169,7 @@ pydantic==1.10.13
     #   -r requirements.txt
     #   fastapi
     #   fastapi-pagination
-pytest==7.4.3
+pytest==8.3.3
     # via
     #   -r requirements-dev.in
     #   pytest-anything

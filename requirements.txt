@@ -14,7 +14,6 @@ alembic==1.13.2
     # via -r requirements.in
 anyio==3.7.1
     # via
-    #   fastapi
     #   httpx
     #   starlette
 asgi-correlation-id==4.3.3
@@ -47,7 +46,7 @@ ecs-logging==2.1.0
     # via elastic-apm
 elastic-apm==6.23.0
     # via -r requirements.in
-fastapi==0.104.1
+fastapi==0.109.1
     # via -r requirements.in
 fastapi-pagination==0.12.27
     # via -r requirements.in
@@ -111,7 +110,7 @@ sqlalchemy[asyncio]==2.0.34
     #   -r requirements.in
     #   alembic
     #   sqlalchemy
-starlette==0.27.0
+starlette==0.35.1
     # via
     #   asgi-correlation-id
     #   fastapi

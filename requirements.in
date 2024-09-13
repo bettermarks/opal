@@ -1,4 +1,4 @@
-aiohttp==3.8.6
+aiohttp==3.10.2
 alembic==1.13.2
 asgi-correlation-id==4.3.3
 asyncpg==0.29.0

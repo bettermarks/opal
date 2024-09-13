@@ -4,7 +4,9 @@
 #
 #    pip-compile requirements.in
 #
-aiohttp==3.8.6
+aiohappyeyeballs==2.4.0
+    # via aiohttp
+aiohttp==3.10.2
     # via -r requirements.in
 aiosignal==1.3.1
     # via aiohttp
@@ -18,9 +20,7 @@ anyio==3.7.1
 asgi-correlation-id==4.3.3
     # via -r requirements.in
 async-timeout==4.0.3
-    # via
-    #   aiohttp
-    #   asyncpg
+    # via asyncpg
 asyncpg==0.29.0
     # via -r requirements.in
 attrs==23.1.0
@@ -34,9 +34,7 @@ certifi==2023.7.22
 cffi==1.16.0
     # via cryptography
 charset-normalizer==3.3.1
-    # via
-    #   aiohttp
-    #   requests
+    # via requests
 click==8.1.7
     # via
     #   -r requirements.in

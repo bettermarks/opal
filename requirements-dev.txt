@@ -73,10 +73,6 @@ cryptography==41.0.5
     #   jwcrypto
 decli==0.6.2
     # via commitizen
-deprecated==1.2.14
-    # via
-    #   -r requirements.txt
-    #   jwcrypto
 docopt==0.6.2
     # via pytest-watch
 ecs-logging==2.1.0
@@ -124,7 +120,7 @@ iniconfig==2.0.0
     # via pytest
 jinja2==3.1.4
     # via commitizen
-jwcrypto==1.5.0
+jwcrypto==1.5.6
     # via -r requirements.txt
 mako==1.2.4
     # via
@@ -233,6 +229,7 @@ typing-extensions==4.8.0
     #   alembic
     #   fastapi
     #   fastapi-pagination
+    #   jwcrypto
     #   pydantic
     #   sqlalchemy
 urllib3==2.0.7
@@ -249,7 +246,6 @@ wcwidth==0.2.13
 wrapt==1.14.1
     # via
     #   -r requirements.txt
-    #   deprecated
     #   elastic-apm
 yarl==1.9.2
     # via

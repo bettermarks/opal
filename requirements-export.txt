@@ -118,7 +118,7 @@ multidict==6.0.4
     #   -r requirements.txt
     #   aiohttp
     #   yarl
-paramiko==3.3.1
+paramiko==3.4.0
     # via
     #   -r requirements-export.in
     #   sshtunnel

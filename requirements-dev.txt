@@ -20,7 +20,7 @@ anyio==3.7.1
     #   starlette
 argcomplete==3.1.6
     # via commitizen
-asgi-correlation-id==4.2.0
+asgi-correlation-id==4.3.3
     # via -r requirements.txt
 async-timeout==4.0.3
     # via

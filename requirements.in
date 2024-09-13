@@ -1,6 +1,6 @@
 aiohttp==3.8.6
 alembic==1.13.2
-asgi-correlation-id==4.2.0
+asgi-correlation-id==4.3.3
 asyncpg==0.29.0
 click==8.1.7
 cryptography==41.0.5

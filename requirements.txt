@@ -15,7 +15,7 @@ anyio==3.7.1
     #   fastapi
     #   httpx
     #   starlette
-asgi-correlation-id==4.2.0
+asgi-correlation-id==4.3.3
     # via -r requirements.in
 async-timeout==4.0.3
     # via

@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements-dev.in
 #
-aiohappyeyeballs==2.4.0
+aiohappyeyeballs==2.4.3
     # via
     #   -r requirements.txt
     #   aiohttp
@@ -16,12 +16,12 @@ aiosignal==1.3.1
     #   aiohttp
 alembic==1.13.2
     # via -r requirements.txt
-anyio==3.7.1
+anyio==4.6.0
     # via
     #   -r requirements.txt
     #   httpx
     #   starlette
-argcomplete==3.1.6
+argcomplete==3.5.0
     # via commitizen
 asgi-correlation-id==4.3.3
     # via -r requirements.txt
@@ -31,7 +31,7 @@ async-timeout==4.0.3
     #   asyncpg
 asyncpg==0.29.0
     # via -r requirements.txt
-attrs==23.1.0
+attrs==24.2.0
     # via
     #   -r requirements.txt
     #   aiohttp
@@ -39,18 +39,18 @@ black==23.11.0
     # via -r requirements-dev.in
 bump2version==1.0.1
     # via -r requirements-dev.in
-certifi==2023.7.22
+certifi==2024.8.30
     # via
     #   -r requirements.txt
     #   elastic-apm
     #   httpcore
     #   httpx
     #   requests
-cffi==1.16.0
+cffi==1.17.1
     # via
     #   -r requirements.txt
     #   cryptography
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via
     #   -r requirements.txt
     #   commitizen
@@ -76,7 +76,7 @@ decli==0.6.2
     # via commitizen
 docopt==0.6.2
     # via pytest-watch
-ecs-logging==2.1.0
+ecs-logging==2.2.0
     # via
     #   -r requirements.txt
     #   elastic-apm
@@ -88,12 +88,12 @@ fastapi-pagination==0.12.27
     # via -r requirements.txt
 freezegun==1.5.1
     # via -r requirements-dev.in
-frozenlist==1.4.0
+frozenlist==1.4.1
     # via
     #   -r requirements.txt
     #   aiohttp
     #   aiosignal
-greenlet==3.0.1
+greenlet==3.1.1
     # via
     #   -r requirements.txt
     #   sqlalchemy
@@ -102,7 +102,7 @@ h11==0.14.0
     #   -r requirements.txt
     #   httpcore
     #   uvicorn
-httpcore==1.0.2
+httpcore==1.0.5
     # via
     #   -r requirements.txt
     #   httpx
@@ -110,7 +110,7 @@ httptools==0.6.1
     # via -r requirements.txt
 httpx==0.27.2
     # via -r requirements.txt
-idna==3.4
+idna==3.10
     # via
     #   -r requirements.txt
     #   anyio
@@ -123,18 +123,18 @@ jinja2==3.1.4
     # via commitizen
 jwcrypto==1.5.6
     # via -r requirements.txt
-mako==1.2.4
+mako==1.3.5
     # via
     #   -r requirements.txt
     #   alembic
-markupsafe==2.1.3
+markupsafe==2.1.5
     # via
     #   -r requirements.txt
     #   jinja2
     #   mako
 mock==5.1.0
     # via -r requirements-dev.in
-multidict==6.0.4
+multidict==6.1.0
     # via
     #   -r requirements.txt
     #   aiohttp
@@ -148,13 +148,13 @@ packaging==24.1
     #   pytest
 pathspec==0.12.1
     # via black
-platformdirs==4.3.2
+platformdirs==4.3.6
     # via black
 pluggy==1.5.0
     # via pytest
 prompt-toolkit==3.0.36
     # via questionary
-pycparser==2.21
+pycparser==2.22
     # via
     #   -r requirements.txt
     #   cffi
@@ -204,7 +204,7 @@ six==1.16.0
     # via
     #   -r requirements.txt
     #   python-dateutil
-sniffio==1.3.0
+sniffio==1.3.1
     # via
     #   -r requirements.txt
     #   anyio
@@ -224,7 +224,7 @@ termcolor==2.4.0
     # via commitizen
 tomlkit==0.13.2
     # via commitizen
-typing-extensions==4.8.0
+typing-extensions==4.12.2
     # via
     #   -r requirements.txt
     #   alembic
@@ -233,22 +233,22 @@ typing-extensions==4.8.0
     #   jwcrypto
     #   pydantic
     #   sqlalchemy
-urllib3==2.0.7
+urllib3==2.2.3
     # via
     #   -r requirements.txt
     #   elastic-apm
     #   requests
 uvicorn==0.30.6
     # via -r requirements.txt
-watchdog==5.0.2
+watchdog==5.0.3
     # via pytest-watch
 wcwidth==0.2.13
     # via prompt-toolkit
-wrapt==1.14.1
+wrapt==1.16.0
     # via
     #   -r requirements.txt
     #   elastic-apm
-yarl==1.9.2
+yarl==1.13.1
     # via
     #   -r requirements.txt
     #   aiohttp

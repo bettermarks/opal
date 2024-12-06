@@ -12,7 +12,7 @@
 [![Contributors][contributors-shield]][contributors-url]
 -->
 
- [![Forks][forks-shield]][forks-url]
+[![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
@@ -241,21 +241,17 @@ $ command-to-run-software [options]
 
 ## Used Technologies
 
-* [![Python][Python]][Python-url]
-* [![FastAPI][FastAPI]][FastAPI-url]
-* [![PostgreSQL][PostgreSQL]][PostgreSQL-url]
+[![Python][Python]][Python-url]
+[![FastAPI][FastAPI]][FastAPI-url]
+[![PostgreSQL][PostgreSQL]][PostgreSQL-url]
 
-## Hierarchy Concept
+## Concepts
 
-## License Concept
+### [Hierarchy Concept](docs/hierarchy_concept.md)
+### [Licensing Concept](docs/opal_concept.md)
+### [Token Concept](docs/auth_token_concept.md)
 
-The concept for implementing such a License Manager can be found here:
-[License Manager concept](./docs/concept.md)
-
-## Token Concept
-
-## Data Model
-
+### [Image of OPAL DB Model](docs/diagrams/OPAL_DB_Model.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # License

@@ -1,0 +1,26 @@
+@startuml
+actor "Student reg.@EdTech IDP" as u_BM
+actor "Student reg.@Univention IDP" as u_UV
+actor "Student reg.@Schulcloud IDP" as u_SC
+
+component "EdTech Client (SPA)" as CLIENT_ET
+
+component "OPAL Service" as OPAL
+
+
+component "EdTech IDP and Hierarchy Provider" as HP_ET
+component "Univention IDP and Hierarchy Provider" as HP_UV
+component "Schulcloud IDP and Hierarchy Provider" as HP_SC
+
+u_BM --> CLIENT_ET: uses
+u_UV --> CLIENT_ET: uses
+u_SC --> CLIENT_ET: uses
+
+CLIENT_ET -u-> OPAL: ask for permissions using the hierarchy token
+
+CLIENT_ET --> HP_ET: logs in and ask for hierarchy token
+CLIENT_ET --> HP_UV: logs in and ask for hierarchy token
+CLIENT_ET --> HP_SC: logs in and ask for hierarchy token
+
+
+@enduml

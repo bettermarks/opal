@@ -16,11 +16,8 @@ The OPAL works in some 'integrated' environment, which is made of
   HP is usually bundled with an Identity Provider (IDP)
 * a Product Serivce (PS), which holds products which can be licensed
 * the OPen Adaptive Licensing (OPAL) itself.
-* optional is a shop which configures and sells the licenses
-
 
 ![](diagrams/components.png)
-Components of the 'license featured' application
 
 ## Hierarchy Provider
 

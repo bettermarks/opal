@@ -36,32 +36,7 @@ At its core, OPAL is a comprehensive licensing service designed to simplify and 
 
 # Description
 
-```mermaid
-flowchart LR
-     subgraph Integration Scenario
-      subgraph OPAL
-        direction TB
-        PAPI(Permission API - auto-redeem)
-        LAPI(License API)
-        AAPI(Admin API)
-      end  
-      LAPI -->|get users licenses| edtechTC(Teacher UI)
-      subgraph EdTech Application
-        direction TB
-      edtechTC -->|create trial-license| LAPI
-      edtechSC(Student UI) -->|ask for accessible products| PAPI
-      end  
-        edtechShop(EdTech Shop) -->|create/update license| LAPI
-        LiBO(Licensing Backoffice) -->|create License|AAPI
-    end
-
-  teacher[fa:fa-person-chalkboard Teacher] -->|purchase a license| edtechShop
-  teacher -->|views license / try product| edtechTC
-    
-  support[fa:fa-headset Support EdTech] -->|administrate License| LiBO
-  student[fa:fa-graduation-cap Student] -->|uses licensed content/app| edtechSC
-```
-<!-- <img src="images/overview_licensing.jpg" alt="Overview Licensing Service" width="400"> -->
+![](docs/diagrams/opal_overview.png)
 
 ## Why
 

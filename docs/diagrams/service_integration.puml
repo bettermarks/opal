@@ -1,0 +1,41 @@
+@startuml
+component "LMS" as LMS
+component "OPAL Service of LMS" as OPAL_LMS
+
+component "Content Provider Cornelsen" as CP_CO
+component "Content Provider Klett" as CP_KL
+component "Content Provider Westermann" as CP_WE
+component "Content Provider bettermarks" as CP_BM
+
+component "OPAL Service of Cornelsen" as OPAL_CO
+component "OPAL Service of Klett" as OPAL_KL
+component "OPAL Service of Westermann" as OPAL_WE
+component "OPAL Service of bettermarks" as OPAL_BM
+
+component "VIDIS IDP and Hierarchy Provider" as HP_VIDIS
+component "Univention IDP and Hierarchy Provider" as HP_UV
+component "Schulcloud IDP and Hierarchy Provider" as HP_SC
+
+HP_VIDIS <-- LMS: ask for hierarchy
+HP_UV <-- LMS: ask for hierarchy
+HP_SC <-- LMS: ask for hierarchy
+
+LMS --> CP_CO: get user content
+LMS --> CP_KL: get user content
+LMS --> CP_WE: get user content
+LMS --> CP_BM: get user content
+LMS --> OPAL_LMS: get all permissions
+
+CP_CO --> OPAL_CO: uses
+CP_KL --> OPAL_KL: uses
+CP_WE --> OPAL_WE: uses
+CP_BM --> OPAL_BM: uses
+
+OPAL_CO --> OPAL_LMS: get permissions
+OPAL_KL --> OPAL_LMS: get permissions
+OPAL_WE --> OPAL_LMS: get permissions
+OPAL_BM --> OPAL_LMS: get permissions
+
+
+
+@enduml

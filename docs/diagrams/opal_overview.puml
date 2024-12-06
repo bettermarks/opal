@@ -1,0 +1,36 @@
+@startuml
+
+left to right direction
+
+
+actor "Teacher" as teacher
+actor "Student" as student
+actor "EdTech Support Agent" as support
+
+package "EdTech App" as APP {
+    component "Teacher UI" as TUI
+    component "Student UI" as SUI
+    component "Admin UI" as AUI
+}
+
+package "EdTech OPAL" as OPAL {
+    component "Permission API (auto redeem)" as P_API
+    component "License API" as L_API
+    component "Admin API" as A_API
+}
+
+component "License Shop" as shop
+
+teacher --> TUI: views license / try product
+teacher --> shop: purchase license
+student --> SUI: uses licensed content/app
+support --> AUI: administrate License
+
+TUI --> L_API: create trial license
+SUI --> P_API: ask for accessible products
+AUI --> A_API: view/change/create licenses
+L_API --> TUI: get available licenses
+shop --> L_API: create purchased license
+
+
+@enduml

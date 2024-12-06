@@ -1,0 +1,10 @@
+@startuml
+component  [Hierarchy Provider (HP)] as HP
+component  [OPen Adaptive Licensing (OPAL)] as OPAL
+component  [Application (APP)] as APP
+
+APP --> HP : uses
+APP --> OPAL : uses
+OPAL --> HP : uses
+
+@enduml

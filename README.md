@@ -222,8 +222,9 @@ $ command-to-run-software [options]
 
 ## Concepts
 
-### [Hierarchy Concept](docs/hierarchy_concept.md)
 ### [Licensing Concept](docs/opal_concept.md)
+### [Integration Concept](docs/integration_concept.md)
+### [Hierarchy Concept](docs/hierarchy_concept.md)
 ### [Token Concept](docs/auth_token_concept.md)
 
 ### [Image of OPAL DB Model](docs/diagrams/OPAL_DB_Model.png)

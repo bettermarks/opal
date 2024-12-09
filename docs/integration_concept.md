@@ -22,5 +22,6 @@ We try to solve the 'integration task', how all the mentioned services can
 ### EdTech Client with multible IDPs
 ![](diagrams/service_integration_App.png)
 
+Potentially possible not implemented yet:
 ### LMS with multiple IDP and multiple Content Providers
 ![](diagrams/service_integration.png)

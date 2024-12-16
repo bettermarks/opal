@@ -227,7 +227,8 @@ $ command-to-run-software [options]
 ### [Hierarchy Concept](docs/hierarchy_concept.md)
 ### [Token Concept](docs/auth_token_concept.md)
 
-### [Image of OPAL DB Model](docs/diagrams/OPAL_DB_Model.png)
+### Image of OPAL DB Model
+[](docs/diagrams/OPAL_DB_Model.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # License

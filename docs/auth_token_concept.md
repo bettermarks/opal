@@ -10,7 +10,7 @@ an application or specific content, we just give an 'allow all' or 'do not allow
 
 The OPAL concept is based on the following assumptions:
 
-- A teacher or (school admin) or somebody else, that has an account at some IDP (we will call that IDP 'hierarchy provider') and is member of some hierarchical structures ('classes', schools', etc.) can 'purchase' a license for some 'class' or 'school' or any other structure, they are member of.
+- A user with an account at an IDP (referred to as the ‘hierarchy provider’) and membership in hierarchical structures (such as ‘classes’, ‘schools’, or similar entities) can purchase a license for an entity in that hierarchy they belong to.”
 - A student or another teacher or somebody else, that is member of a 'licensed' group or school or any other structure in the hierarchy can use that license.
 
 In order to achieve that, we have mainly to solve these authorization problems: 

@@ -13,11 +13,6 @@ The OPAL concept is based on the following assumptions:
 - A user with an account at an IDP (referred to as the ‘hierarchy provider’) and membership in hierarchical structures (such as ‘classes’, ‘schools’, or similar entities) can purchase a license for an entity in that hierarchy they belong to.”
 - Another member of a 'licensed' group or school or any other structure in the hierarchy can use that license.
 
-In order to achieve that, we have mainly to solve these authorization problems: 
-
-1. How can the license service know, if a teacher is allowed to purchase a license (ID=1234) for a specific class 5A?
-2. How can the license service know, if a student is in group 5A and therefore may access the license (ID=1234)?
-
 ## Authorizing the "Classic Way"
 
 ![](diagrams/service_integration_classic.png)

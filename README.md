@@ -12,7 +12,7 @@
 [![Contributors][contributors-shield]][contributors-url]
 -->
 
- [![Forks][forks-shield]][forks-url]
+[![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
@@ -36,32 +36,7 @@ At its core, OPAL is a comprehensive licensing service designed to simplify and 
 
 # Description
 
-```mermaid
-flowchart LR
-     subgraph Integration Scenario
-      subgraph OPAL
-        direction TB
-        PAPI(Permission API - auto-redeem)
-        LAPI(License API)
-        AAPI(Admin API)
-      end  
-      LAPI -->|get users licenses| edtechTC(Teacher UI)
-      subgraph EdTech Application
-        direction TB
-      edtechTC -->|create trial-license| LAPI
-      edtechSC(Student UI) -->|ask for accessible products| PAPI
-      end  
-        edtechShop(EdTech Shop) -->|create/update license| LAPI
-        LiBO(Licensing Backoffice) -->|create License|AAPI
-    end
-
-  teacher[fa:fa-person-chalkboard Teacher] -->|purchase a license| edtechShop
-  teacher -->|views license / try product| edtechTC
-    
-  support[fa:fa-headset Support EdTech] -->|administrate License| LiBO
-  student[fa:fa-graduation-cap Student] -->|uses licensed content/app| edtechSC
-```
-<!-- <img src="images/overview_licensing.jpg" alt="Overview Licensing Service" width="400"> -->
+![](docs/diagrams/opal_overview.png)
 
 ## Why
 
@@ -241,21 +216,19 @@ $ command-to-run-software [options]
 
 ## Used Technologies
 
-* [![Python][Python]][Python-url]
-* [![FastAPI][FastAPI]][FastAPI-url]
-* [![PostgreSQL][PostgreSQL]][PostgreSQL-url]
+[![Python][Python]][Python-url]
+[![FastAPI][FastAPI]][FastAPI-url]
+[![PostgreSQL][PostgreSQL]][PostgreSQL-url]
 
-## Hierarchy Concept
+## Concepts
 
-## License Concept
+### [Licensing Concept](docs/opal_concept.md)
+### [Integration Concept](docs/integration_concept.md)
+### [Hierarchy Concept](docs/hierarchy_concept.md)
+### [Token Concept](docs/auth_token_concept.md)
 
-The concept for implementing such a License Manager can be found here:
-[License Manager concept](./docs/concept.md)
-
-## Token Concept
-
-## Data Model
-
+### Image of OPAL DB Model
+[](docs/diagrams/OPAL_DB_Model.png)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 # License

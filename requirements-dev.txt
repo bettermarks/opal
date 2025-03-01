@@ -4,34 +4,34 @@
 #
 #    pip-compile requirements-dev.in
 #
-aiohappyeyeballs==2.4.0
+aiohappyeyeballs==2.4.6
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   aiohttp
 aiohttp==3.10.11
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
-aiosignal==1.3.1
+aiosignal==1.3.2
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   aiohttp
 alembic==1.13.2
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
-anyio==3.7.1
+anyio==4.8.0
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   httpx
     #   starlette
-argcomplete==3.1.6
+argcomplete==3.5.3
     # via commitizen
 asgi-correlation-id==4.3.3
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
-async-timeout==4.0.3
+async-timeout==5.0.1
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   asyncpg
 asyncpg==0.29.0
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
-attrs==23.1.0
+attrs==25.1.0
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   aiohttp
@@ -39,18 +39,18 @@ black==23.11.0
     # via -r requirements-dev.in
 bump2version==1.0.1
     # via -r requirements-dev.in
-certifi==2023.7.22
+certifi==2025.1.31
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   elastic-apm
     #   httpcore
     #   httpx
     #   requests
-cffi==1.16.0
+cffi==1.17.1
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   cryptography
-charset-normalizer==3.3.1
+charset-normalizer==3.4.1
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   commitizen
@@ -66,7 +66,7 @@ colorama==0.4.6
     #   pytest-watch
 commitizen==3.29.0
     # via -r requirements-dev.in
-coverage[toml]==7.6.1
+coverage[toml]==7.6.12
     # via pytest-cov
 cryptography==41.0.5
     # via
@@ -76,7 +76,7 @@ decli==0.6.2
     # via commitizen
 docopt==0.6.2
     # via pytest-watch
-ecs-logging==2.1.0
+ecs-logging==2.2.0
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   elastic-apm
@@ -88,12 +88,12 @@ fastapi-pagination==0.12.27
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
 freezegun==1.5.1
     # via -r requirements-dev.in
-frozenlist==1.4.0
+frozenlist==1.5.0
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   aiohttp
     #   aiosignal
-greenlet==3.0.1
+greenlet==3.1.1
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   sqlalchemy
@@ -102,7 +102,7 @@ h11==0.14.0
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   httpcore
     #   uvicorn
-httpcore==1.0.2
+httpcore==1.0.7
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   httpx
@@ -110,7 +110,7 @@ httptools==0.6.1
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
 httpx==0.27.2
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
-idna==3.4
+idna==3.10
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   anyio
@@ -119,46 +119,46 @@ idna==3.4
     #   yarl
 iniconfig==2.0.0
     # via pytest
-jinja2==3.1.4
+jinja2==3.1.5
     # via commitizen
 jwcrypto==1.5.6
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
-mako==1.2.4
+mako==1.3.9
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   alembic
-markupsafe==2.1.3
+markupsafe==3.0.2
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   jinja2
     #   mako
 mock==5.1.0
     # via -r requirements-dev.in
-multidict==6.0.4
+multidict==6.1.0
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   aiohttp
     #   yarl
 mypy-extensions==1.0.0
     # via black
-packaging==24.1
+packaging==24.2
     # via
     #   black
     #   commitizen
     #   pytest
 pathspec==0.12.1
     # via black
-platformdirs==4.3.2
+platformdirs==4.3.6
     # via black
 pluggy==1.5.0
     # via pytest
-prompt-toolkit==3.0.36
+prompt-toolkit==3.0.50
     # via questionary
-propcache==0.2.1
+propcache==0.3.0
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   yarl
-pycparser==2.21
+pycparser==2.22
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   cffi
@@ -200,15 +200,15 @@ pyyaml==6.0.2
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   commitizen
-questionary==2.0.1
+questionary==2.1.0
     # via commitizen
 requests==2.31.0
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
-six==1.16.0
+six==1.17.0
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   python-dateutil
-sniffio==1.3.0
+sniffio==1.3.1
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   anyio
@@ -224,31 +224,32 @@ starlette==0.35.1
     #   fastapi
 structlog==24.4.0
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
-termcolor==2.4.0
+termcolor==2.5.0
     # via commitizen
 tomlkit==0.13.2
     # via commitizen
-typing-extensions==4.8.0
+typing-extensions==4.12.2
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   alembic
+    #   anyio
     #   fastapi
     #   fastapi-pagination
     #   jwcrypto
     #   pydantic
     #   sqlalchemy
-urllib3==2.0.7
+urllib3==2.3.0
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   elastic-apm
     #   requests
 uvicorn==0.30.6
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
-watchdog==5.0.2
+watchdog==6.0.0
     # via pytest-watch
 wcwidth==0.2.13
     # via prompt-toolkit
-wrapt==1.14.1
+wrapt==1.17.2
     # via
     #   -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
     #   elastic-apm

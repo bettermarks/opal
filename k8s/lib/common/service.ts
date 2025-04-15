@@ -1,14 +1,16 @@
-import { ServiceType } from "cdk8s-plus-27";
-import { Construct } from "constructs";
 import {
-  KubeDeployment,
-  KubeService,
   Container,
   IntOrString,
-  Volume,
+  KubeDeployment,
+  KubeService,
+  Toleration,
   TopologySpreadConstraint,
+  Volume,
 } from "../../imports/k8s";
+import { DEFAULT_TOLERATIONS } from "../constants";
 import { NodeSelector } from "../types";
+import { ServiceType } from "cdk8s-plus-29";
+import { Construct } from "constructs";
 
 export type LicensingServiceProps = {
   name: string;
@@ -22,6 +24,7 @@ export type LicensingServiceProps = {
   containerPort: number;
   namespace?: string;
 };
+
 export class LicensingService extends Construct {
   readonly service?: KubeService;
 
@@ -42,20 +45,38 @@ export class LicensingService extends Construct {
     } = props;
 
     /**
-     * Node selector and topology spread constraints
+     * Node selector, tolerations and topology spread constraints
      */
-    let topologySpreadConstraints: TopologySpreadConstraint[] = [];
+    let tolerations: Toleration[] | undefined;
+    let topologySpreadConstraints: TopologySpreadConstraint[] | undefined;
     if (nodeSelector && Object.keys(nodeSelector).length > 0) {
+      tolerations = DEFAULT_TOLERATIONS;
       topologySpreadConstraints = [
         {
           maxSkew: 1,
-          topologyKey: "kubernetes.io/hostname",
-          whenUnsatisfiable: "DoNotSchedule",
+          topologyKey: "topology.kubernetes.io/zone",
+          whenUnsatisfiable: "ScheduleAnyway",
           labelSelector: {
             matchLabels: {
               app: name,
             },
           },
+          matchLabelKeys: ["pod-template-hash"],
+          nodeAffinityPolicy: "Honor",
+          nodeTaintsPolicy: "Honor",
+        },
+        {
+          maxSkew: 1,
+          topologyKey: "kubernetes.io/hostname",
+          whenUnsatisfiable: "ScheduleAnyway",
+          labelSelector: {
+            matchLabels: {
+              app: name,
+            },
+          },
+          matchLabelKeys: ["pod-template-hash"],
+          nodeAffinityPolicy: "Honor",
+          nodeTaintsPolicy: "Honor",
         },
       ];
     }
@@ -72,6 +93,12 @@ export class LicensingService extends Construct {
             app: name,
           },
         },
+        strategy: {
+          rollingUpdate: {
+            maxSurge: IntOrString.fromNumber(1),
+            maxUnavailable: IntOrString.fromNumber(0),
+          },
+        },
         template: {
           metadata: {
             labels: {
@@ -81,12 +108,11 @@ export class LicensingService extends Construct {
           spec: {
             serviceAccountName,
             nodeSelector,
-            ...(topologySpreadConstraints.length > 0 && {
-              topologySpreadConstraints: topologySpreadConstraints,
-            }),
+            tolerations,
+            topologySpreadConstraints,
             initContainers,
             containers,
-            ...(volumes && { volumes: volumes }),
+            volumes,
           },
         },
       },

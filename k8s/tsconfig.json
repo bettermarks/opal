@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
-    "charset": "utf8",
     "declaration": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
@@ -20,7 +19,8 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "stripInternal": true,
-    "target": "ES2017"
+    "target": "ES2017",
+    "noEmit": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]

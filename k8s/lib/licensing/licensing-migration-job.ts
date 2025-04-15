@@ -1,15 +1,14 @@
-import { Chart, ChartProps } from "cdk8s";
-import { ImagePullPolicy } from "cdk8s-plus-27";
 import {
   EnvFromSource,
   Quantity,
   ResourceRequirements,
 } from "../../imports/k8s";
-import { Construct } from "constructs";
-
+import { LicensingJob } from "../common/licensing-job";
+import { LICENSING_SECRET, POSTGRES_IMAGE } from "../constants";
 import { NodeSelector, Namespace } from "../types";
-import { POSTGRES_IMAGE } from "../constants";
-import { LicensingJob } from "../jobs";
+import { Chart, ChartProps } from "cdk8s";
+import { ImagePullPolicy } from "cdk8s-plus-29";
+import { Construct } from "constructs";
 
 /**
  * This class is the implementation detail of Licensing deployment.
@@ -19,23 +18,6 @@ export type LicensingChartProps = ChartProps & {
    * Docker image for Licensing
    */
   image: string;
-  /**
-   * Name of the secret containing Postgres credentials
-   *
-   * Required keys:
-   * - DB_HOST
-   * - DB_PORT
-   * - DB_USER
-   * - DB_PASSWORD
-   * - DB_NAME
-   */
-  postgresSecret: string;
-  /**
-   * Name of the secret containing necessary credentials for running the service.
-   *
-   * Required keys:
-   */
-  applicationSecret?: string;
   name: string;
   serviceAccountName: string;
   /**
@@ -53,12 +35,10 @@ export class MigrationJobChart extends Chart {
 
     const {
       namespace = Namespace.LICENSING,
-      applicationSecret,
       image,
       nodeSelector,
       migrationJobResources,
       serviceAccountName,
-      postgresSecret,
       name,
       configMap,
     } = props;
@@ -71,18 +51,9 @@ export class MigrationJobChart extends Chart {
       },
       {
         secretRef: {
-          name: postgresSecret,
+          name: LICENSING_SECRET,
         },
       },
-      ...(applicationSecret
-        ? [
-            {
-              secretRef: {
-                name: applicationSecret,
-              },
-            },
-          ]
-        : []),
     ];
     /**
      * Job for running database migration

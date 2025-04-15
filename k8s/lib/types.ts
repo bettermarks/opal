@@ -1,4 +1,5 @@
 import { ResourceRequirements } from "../imports/k8s";
+
 /**
  * Stages
  */
@@ -15,6 +16,7 @@ export enum Stage {
 export enum Segment {
   LOC00 = "loc00",
   DEV00 = "dev00",
+  DEV01 = "dev01",
   CI00 = "ci00",
   CI01 = "ci01",
   PRO00 = "pro00",
@@ -92,3 +94,15 @@ export enum Namespace {
   DEFAULT = "default",
   LICENSING = "licensing",
 }
+
+/**
+ * App Synth Props
+ */
+export type AppSynthProps = {
+  segment: Segment;
+  imageTag: string;
+  namespace: string;
+};
+
+export const getStageFromSegment = (segment: string) =>
+  segment.replace(/[0-9]/g, "");

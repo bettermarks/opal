@@ -1,9 +1,9 @@
-import { ConfigMap } from "cdk8s-plus-27";
-import { Construct } from "constructs";
-import { ApplicationConfig } from "./types";
+import { ApplicationConfig } from "../types";
 import { Chart, ChartProps } from "cdk8s";
+import { ConfigMap } from "cdk8s-plus-29";
+import { Construct } from "constructs";
 
-export type LicensingConfigProps = ChartProps & {
+export type ConfigChartProps = ChartProps & {
   name: string;
   appConfig: ApplicationConfig;
   namespace?: string;
@@ -12,7 +12,7 @@ export type LicensingConfigProps = ChartProps & {
 export class LicensingConfig extends Chart {
   readonly configMap: ConfigMap;
 
-  constructor(scope: Construct, id: string, props: LicensingConfigProps) {
+  constructor(scope: Construct, id: string, props: ConfigChartProps) {
     super(scope, id);
     const { name, namespace, appConfig } = props;
 

@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`postgres-chart should match with snapshot 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "immutable": false,
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "licensing-db-init-db-script",
+      "namespace": "dummy-namespace",
+    },
+  },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app": "licensing-db",
+      },
+      "name": "licensing-db",
+      "namespace": "dummy-namespace",
+    },
+    "spec": {
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "app": "licensing-db",
+        },
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "licensing-db",
+          },
+        },
+        "spec": {
+          "containers": [
+            {
+              "envFrom": [
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "postgres:14",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "initialDelaySeconds": 10,
+                "tcpSocket": {
+                  "port": 5432,
+                },
+              },
+              "name": "licensing-db",
+              "ports": [
+                {
+                  "containerPort": 5432,
+                },
+              ],
+              "readinessProbe": {
+                "initialDelaySeconds": 10,
+                "tcpSocket": {
+                  "port": 5432,
+                },
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/docker-entrypoint-initdb.d/",
+                  "name": "licensing-db-init-db-script-volume",
+                },
+              ],
+            },
+          ],
+          "volumes": [
+            {
+              "configMap": {
+                "name": "licensing-db-init-db-script",
+              },
+              "name": "licensing-db-init-db-script-volume",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "licensing-db",
+      "namespace": "dummy-namespace",
+    },
+    "spec": {
+      "ports": [
+        {
+          "port": 5432,
+        },
+      ],
+      "selector": {
+        "app": "licensing-db",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;

@@ -1,7 +1,7 @@
-import { Container, KubeJob } from "../imports/k8s";
+import { Container, KubeJob } from "../../imports/k8s";
+import { NodeSelector } from "../types";
+import { RestartPolicy } from "cdk8s-plus-29";
 import { Construct } from "constructs";
-import { NodeSelector } from "./types";
-import { RestartPolicy } from "cdk8s-plus-27";
 
 export type LicensingJobProps = {
   name: string;

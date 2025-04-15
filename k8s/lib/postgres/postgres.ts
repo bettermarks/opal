@@ -1,14 +1,9 @@
-import { Chart, ChartProps } from "cdk8s";
-import {
-  ConfigMap,
-  ImagePullPolicy,
-  ISecret,
-  Secret,
-  ServiceType,
-} from "cdk8s-plus-27";
-import { Construct } from "constructs";
-import { Namespace } from "../types";
 import { IntOrString, KubeDeployment, KubeService } from "../../imports/k8s";
+import { LICENSING_SECRET } from "../constants";
+import { Namespace } from "../types";
+import { Chart, ChartProps } from "cdk8s";
+import { ConfigMap, ImagePullPolicy, ServiceType } from "cdk8s-plus-29";
+import { Construct } from "constructs";
 
 interface PostgresChartProps extends ChartProps {
   image: string;
@@ -16,37 +11,9 @@ interface PostgresChartProps extends ChartProps {
 }
 
 export class PostgresChart extends Chart {
-  /**
-   * Secret with Postgres credentials
-   *
-   * keys:
-   * - DB_HOST
-   * - DB_PORT
-   * - DB_USER
-   * - DB_PASSWORD
-   * - DB_NAME
-   * - POSTGRES_PASSWORD
-   */
-  readonly secret: ISecret;
-
   constructor(scope: Construct, id: string, props: PostgresChartProps) {
     super(scope, id, props);
     const { name, namespace = Namespace.LICENSING } = props;
-    const pgSecret = new Secret(this, "secret", {
-      metadata: {
-        name: name,
-        namespace,
-      },
-      stringData: {
-        DB_PORT: "5432",
-        DB_USER: "postgres",
-        DB_PASSWORD: "postgres",
-        DB_NAME: "postgres",
-        POSTGRES_PASSWORD: "postgres",
-        POSTGRES_USER: "postgres",
-        POSTGRES_DB: "postgres",
-      },
-    });
 
     const configMap = new ConfigMap(this, "initdb", {
       metadata: {
@@ -86,7 +53,7 @@ export class PostgresChart extends Chart {
                 ports: [{ containerPort: 5432 }],
                 envFrom: [
                   {
-                    secretRef: { name: pgSecret.name },
+                    secretRef: { name: LICENSING_SECRET },
                   },
                 ],
                 readinessProbe: {
@@ -122,7 +89,7 @@ export class PostgresChart extends Chart {
       },
     });
 
-    const pgService = new KubeService(this, id, {
+    new KubeService(this, id, {
       metadata: {
         name,
         namespace,
@@ -139,9 +106,5 @@ export class PostgresChart extends Chart {
         },
       },
     });
-
-    pgSecret.addStringData("DB_HOST", pgService.name);
-    pgSecret.addStringData("DB_PORT", "5432");
-    this.secret = pgSecret;
   }
 }

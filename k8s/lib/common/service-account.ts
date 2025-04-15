@@ -1,7 +1,11 @@
-import { KubeRole, KubeServiceAccount, KubeRoleBinding } from "../imports/k8s";
-import { Construct } from "constructs";
+import {
+  KubeRole,
+  KubeServiceAccount,
+  KubeRoleBinding,
+} from "../../imports/k8s";
+import { Namespace } from "../types";
 import { Chart } from "cdk8s";
-import { Namespace } from "./types";
+import { Construct } from "constructs";
 
 export type LicensingServiceAccountProps = {
   /**
@@ -14,6 +18,7 @@ export type LicensingServiceAccountProps = {
 
 export class LicensingServiceAccount extends Chart {
   readonly serviceAccount: KubeServiceAccount;
+  readonly imagePullSecrets: ReadonlyArray<string>;
 
   constructor(
     scope: Construct,
@@ -22,7 +27,7 @@ export class LicensingServiceAccount extends Chart {
   ) {
     super(scope, id);
 
-    const { name, namespace = Namespace.LICENSING } = props;
+    const { name, namespace = Namespace.LICENSING, imagePullSecrets } = props;
 
     this.serviceAccount = new KubeServiceAccount(
       this,
@@ -32,12 +37,12 @@ export class LicensingServiceAccount extends Chart {
           name,
           namespace,
         },
-        imagePullSecrets: props.imagePullSecrets?.map((secretRef) => ({
+        imagePullSecrets: imagePullSecrets?.map((secretRef) => ({
           name: secretRef,
         })),
       },
     );
-
+    this.imagePullSecrets = imagePullSecrets;
     const role = new KubeRole(this, "licensing-role", {
       metadata: {
         name,

@@ -1,7 +1,6 @@
 import datetime
 from typing import List, Tuple, Dict, Any
 
-import pytz
 from fastapi import status as http_status
 from sqlalchemy import (
     select,
@@ -16,6 +15,7 @@ from sqlalchemy import (
     true,
     case,
     distinct,
+    delete,
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -31,16 +31,15 @@ from services.licensing.custom_types import (
 )
 from services.licensing.data.repository import LicensingRepository
 from services.licensing.data.sqlalchemy.model.event_log import EventLogModel
-from services.licensing.data.sqlalchemy.model.seat import SeatModel
 from services.licensing.data.sqlalchemy.model.license import (
     LicenseModel,
     LicensesUnnestedOwnersModel,
 )
+from services.licensing.data.sqlalchemy.model.seat import SeatModel
 from services.licensing.data.sqlalchemy.pagination import execute_paginated_query
 from services.licensing.exceptions import HTTPException
 
 
-# todo: SPECIFIC (in docstring)
 def apply_filter_restrictions(
     query: Select,
     filter_restrictions: Dict[str, List[str]],
@@ -51,11 +50,11 @@ def apply_filter_restrictions(
     (/licenses, /licenses{license_id}) using a 'filter_restrictions' dict
     in the 'admin token'. This is something like:
 
-    {"manager_eid": ["DE_test"]}
+    {"manager_eid": ["DE_bettermarks", "DE_test"]}
 
     This function interprets the 'filter restrictions' like so: A given license
     passes the function with 'True' in the example case above, if and only if
-    it has a 'manager_eid' like '*DE_test*'.
+    it has a 'manager_eid' like '*DE_bettermarks*' OR '*DE_test*'.
     :param query: the query to apply the filters to
     :param filter_restrictions: see above
     :param allowed_filter_restrictions: list of allowed filter restrictions to apply
@@ -89,11 +88,23 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
     def __init__(self, session: AsyncSession):
         self.session = session
 
+    async def is_db_alive(self) -> bool:
+        try:
+            await self.session.execute(text("SELECT 1"))
+            return True
+        except Exception:
+            return False
+
     async def create_license(self, **data) -> None:
         self.session.add(LicenseModel(**data))
 
     async def create_seat(self, **data) -> None:
         self.session.add(SeatModel(**{k: v for k, v in data.items() if k != "uuid"}))
+
+    async def delete_license(self, license_uuid: str) -> None:
+        await self.session.execute(
+            delete(LicenseModel).where(LicenseModel.uuid == license_uuid)
+        )
 
     async def update_license(
         self, license_uuid: str, license_filter_restrictions: Any, **data
@@ -147,7 +158,7 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
         order_by_fields: List[Tuple[str, str]],
         hierarchy_provider_uri: str,
         user_eid: str,
-    ) -> List[License]:
+    ) -> Tuple[List[License], int]:
         items, total = await execute_paginated_query(
             self.session,
             select(LicenseModel)
@@ -159,9 +170,11 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
             .options(selectinload(LicenseModel.released_seats))
             .order_by(
                 *[
-                    getattr(LicenseModel, field).desc()
-                    if dir_ == OrderByDirection.DESC
-                    else getattr(LicenseModel, field)
+                    (
+                        getattr(LicenseModel, field).desc()
+                        if dir_ == OrderByDirection.DESC
+                        else getattr(LicenseModel, field)
+                    )
                     for field, dir_ in order_by_fields
                 ]
             ),
@@ -170,6 +183,28 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
         )
         return [l_.to_dto() for l_ in items], total
 
+    async def get_managed_licenses_by_id(
+        self,
+        license_id: str,
+        hierarchy_provider_uri: str,
+        user_eid: str,
+    ) -> License:
+        license_item_stmt = (
+            select(LicenseModel)
+            .where(
+                LicenseModel.uuid == license_id,
+                LicenseModel.hierarchy_provider_uri == hierarchy_provider_uri,
+                LicenseModel.manager_eid == user_eid,
+            )
+            .options(
+                selectinload(LicenseModel.seats),
+                selectinload(LicenseModel.released_seats),
+            )
+        )
+        result = await self.session.execute(license_item_stmt)
+        license_item = result.scalar()
+        return license_item.to_dto() if license_item else None
+
     async def get_licenses_for_entities_paginated(
         self,
         page: int,
@@ -177,7 +212,7 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
         order_by_fields: List[Tuple[str, str]],
         hierarchy_provider_uri: str,
         entities: List[Entity],
-    ) -> List[License]:
+    ) -> Tuple[List[License], int]:
         # subquery for all license ids with owners unnested to rows ...
         subquery_licenses = (
             select(LicensesUnnestedOwnersModel.id)
@@ -199,9 +234,11 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
             .options(selectinload(LicenseModel.released_seats))
             .order_by(
                 *[
-                    getattr(LicenseModel, field).desc()
-                    if dir_ == OrderByDirection.DESC
-                    else getattr(LicenseModel, field)
+                    (
+                        getattr(LicenseModel, field).desc()
+                        if dir_ == OrderByDirection.DESC
+                        else getattr(LicenseModel, field)
+                    )
                     for field, dir_ in order_by_fields
                 ]
             )
@@ -223,13 +260,13 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
         filter_restrictions: Dict[str, List[str]],
         allowed_filter_restrictions: List[str],
         **filters,
-    ) -> List[License]:
+    ) -> Tuple[List[License], int]:
         """
         helper: gets all licenses, paginated, with order by and filters
         :returns: a tuple with
             (a list of License DTO objects, the total number of licenses)
         """
-        date_now = datetime.datetime.now(tz=pytz.timezone("UTC"))
+        date_now = datetime.datetime.now(tz=datetime.timezone.utc)
         filter_is_valid = filters.get("is_valid")
         stmt = (
             select(LicenseModel)
@@ -238,52 +275,80 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
                 LicensesUnnestedOwnersModel.id == LicenseModel.id,
             )
             .where(
-                LicenseModel.product_eid.contains(filters["product_eid"])
-                if filters.get("product_eid")
-                else text(""),
-                LicenseModel.owner_type == filters["owner_type"]
-                if filters.get("owner_type")
-                else text(""),
-                LicenseModel.owner_level == filters["owner_level"]
-                if filters.get("owner_level")
-                else text(""),
-                LicensesUnnestedOwnersModel.owner_eid.contains(filters["owner_eid"])
-                if filters.get("owner_eid")
-                else text(""),
-                LicenseModel.manager_eid.contains(filters["manager_eid"])
-                if filters.get("manager_eid")
-                else text(""),
-                LicenseModel.valid_from >= filters["valid_from"]
-                if filters.get("valid_from")
-                else text(""),
-                LicenseModel.valid_to <= filters["valid_to"]
-                if filters.get("valid_to")
-                else text(""),
-                LicenseModel.is_trial.is_(filters["is_trial"])
-                if filters.get("is_trial") is not None
-                else text(""),
-                LicenseModel.created_at >= filters["created_at"]
-                if filters.get("created_at")
-                else text(""),
+                (
+                    LicenseModel.product_eid.contains(filters["product_eid"])
+                    if filters.get("product_eid")
+                    else text("")
+                ),
+                (
+                    LicenseModel.owner_type == filters["owner_type"]
+                    if filters.get("owner_type")
+                    else text("")
+                ),
+                (
+                    LicenseModel.owner_level == filters["owner_level"]
+                    if filters.get("owner_level")
+                    else text("")
+                ),
+                (
+                    LicensesUnnestedOwnersModel.owner_eid.contains(filters["owner_eid"])
+                    if filters.get("owner_eid")
+                    else text("")
+                ),
+                (
+                    LicenseModel.manager_eid.contains(filters["manager_eid"])
+                    if filters.get("manager_eid")
+                    else text("")
+                ),
+                (
+                    LicenseModel.valid_from >= filters["valid_from"]
+                    if filters.get("valid_from")
+                    else text("")
+                ),
+                (
+                    LicenseModel.valid_to <= filters["valid_to"]
+                    if filters.get("valid_to")
+                    else text("")
+                ),
+                (
+                    LicenseModel.is_trial.is_(filters["is_trial"])
+                    if filters.get("is_trial") is not None
+                    else text("")
+                ),
+                (
+                    LicenseModel.created_at >= filters["created_at"]
+                    if filters.get("created_at")
+                    else text("")
+                ),
                 # filter by `is_valid`
-                LicenseModel.valid_from <= date_now
-                if filter_is_valid is True
-                else LicenseModel.valid_from > date_now
-                if filter_is_valid is False
-                else text(""),
-                LicenseModel.valid_to >= date_now
-                if filter_is_valid is True
-                else LicenseModel.valid_to < date_now
-                if filter_is_valid is False
-                else text(""),
+                (
+                    LicenseModel.valid_from <= date_now
+                    if filter_is_valid is True
+                    else (
+                        LicenseModel.valid_from > date_now
+                        if filter_is_valid is False
+                        else text("")
+                    )
+                ),
+                (
+                    LicenseModel.valid_to >= date_now
+                    if filter_is_valid is True
+                    else (
+                        LicenseModel.valid_to < date_now
+                        if filter_is_valid is False
+                        else text("")
+                    )
+                ),
             )
             .options(selectinload(LicenseModel.seats))
             .options(selectinload(LicenseModel.released_seats))
             .order_by(
                 *[
-                    getattr(LicenseModel, field).desc()
-                    if dir == OrderByDirection.DESC
-                    else getattr(LicenseModel, field)
+                    (
+                        getattr(LicenseModel, field).desc()
+                        if dir == OrderByDirection.DESC
+                        else getattr(LicenseModel, field)
+                    )
                     for field, dir in order_by_fields
                 ]
             )
@@ -292,6 +357,13 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
         # special aggregation filters:
         #
         if filters.get("redeemed_seats"):
+            # Filter uses the following logic in `having` clause:
+            # - number of redeemed seats * 1/10000000000  >= 80% (or something)
+            # [if nof_seats is infinity (NEVER TRUE)]
+            # - number of redeemed seats * 10000000000  >= 80% (or something)
+            # [if nof_seats is 0 (ALWAYS TRUE)]
+            # - number of redeemed seats * 1.0/nof_seats  >= 80% (or something)
+            # [true if, redeemed seats / nof_seats >= 0.8 etc. (The usual case)]
             stmt = (
                 stmt.join(
                     SeatModel,
@@ -308,9 +380,10 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
                     # multiple owner eids per license. Otherwise, the count
                     # would be multiplied by the number of owner eids!
                     * func.count(distinct(SeatModel.id))
-                    / case(
-                        (LicenseModel.nof_seats == -1, 10000000000),
-                        else_=LicenseModel.nof_seats,
+                    * case(
+                        (LicenseModel.nof_seats <= -1, 1.0 / 10000000000),
+                        (LicenseModel.nof_seats <= 0, 10000000000),
+                        else_=1.0 / LicenseModel.nof_seats,
                     )
                     >= filters["redeemed_seats"] / 100.0
                 )
@@ -344,7 +417,6 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
             .options(selectinload(LicenseModel.seats))
             .options(selectinload(LicenseModel.released_seats))
         )
-
         license_ = (
             (
                 await self.session.execute(
@@ -433,7 +505,7 @@ class LicensingRepositorySqlalchemyImpl(LicensingRepository):
         self.session.add(
             EventLogModel(
                 event_type=type_.value,
-                timestamp=datetime.datetime.now(tz=pytz.timezone("UTC")),
+                timestamp=datetime.datetime.now(tz=datetime.timezone.utc),
                 event_version=version,
                 event_payload=payload,
                 is_exported=is_exported,

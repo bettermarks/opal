@@ -39,6 +39,7 @@ class LicenseModel(Model):
         lazy="raise",
         primaryjoin="and_(LicenseModel.id==SeatModel.ref_license, "
         "SeatModel.is_occupied==True)",
+        viewonly=True,
     )
     # as 'released seats', we only list the 'unoccupied' seats, that means
     # all those seats, that are expired or no longer valid because the seat
@@ -48,6 +49,7 @@ class LicenseModel(Model):
         lazy="raise",
         primaryjoin="and_(LicenseModel.id==SeatModel.ref_license, "
         "SeatModel.is_occupied==False)",
+        viewonly=True,
     )
 
     __table_args__ = (
@@ -63,7 +65,7 @@ class LicenseModel(Model):
     )
 
     def to_dto(self, with_seats=True) -> License:
-        seats = [s.to_dto() for s in self.seats] if with_seats else []
+        nof_occupied_seats = len(self.seats) if with_seats else None
         return License(
             id=self.id,
             uuid=self.uuid,
@@ -77,18 +79,19 @@ class LicenseModel(Model):
             valid_to=self.valid_to,
             nof_seats=self.nof_seats,
             # for API response we ignore extra-seats
-            nof_free_seats=nof_free_seats(self.nof_seats, 0, len(seats))
-            if self.nof_seats != INFINITE_INT_JSON
-            else INFINITE_INT_JSON,
+            nof_free_seats=(
+                nof_free_seats(self.nof_seats, 0, nof_occupied_seats)
+                if self.nof_seats != INFINITE_INT_JSON
+                else INFINITE_INT_JSON
+            ),
+            nof_occupied_seats=nof_occupied_seats,
             extra_seats=self.extra_seats,
             is_trial=self.is_trial,
             notes=self.notes,
-            seats=seats,
-            released_seats=[s.to_dto() for s in self.released_seats]
-            if with_seats
-            else []
-            if with_seats
-            else None,
+            seats=[s.to_dto() for s in self.seats] if with_seats else [],
+            released_seats=(
+                [s.to_dto() for s in self.released_seats] if with_seats else []
+            ),
             created_at=self.created_at,
             updated_at=self.updated_at,
         )

@@ -1,4 +1,7 @@
 import time
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
+
 import structlog
 
 from asgi_correlation_id import CorrelationIdMiddleware
@@ -12,6 +15,7 @@ from fastapi.exceptions import RequestValidationError
 from uvicorn.protocols.utils import get_path_with_query_string
 
 from services.licensing import settings
+from services.licensing.api import endpoints
 from services.licensing.exceptions import HTTPException
 from services.licensing import __version__ as version
 from services.licensing.logging import setup_logging, LogLevel
@@ -24,23 +28,29 @@ error_logger = structlog.stdlib.get_logger("api.error")
 exception_logger = structlog.stdlib.get_logger("api.exception")
 
 
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncGenerator[None, None]:
+    yield
+
+
 app = FastAPI(
-    title="Open Adaptive Licensing",
+    title="Licensing Service",
     version=version,
     openapi_url="/v1/openapi.json",
     debug=True if settings.log_level == LogLevel.DEBUG else False,
-    description="An Open Adaptive Licensing service",
+    description="A generic license managing application",
+    lifespan=lifespan,
 )
+
 
 add_pagination(app)  # important! add pagination
 
-# todo: SPECIFICS
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
     allow_headers=["*"],
     allow_methods=["*"],
-    allow_origin_regex=r"https://apps.*\.your-domain\.(loc|com)",
+    allow_origin_regex=r"https://apps.*\.bettermarks\.(loc|com)",
 )
 
 
@@ -140,7 +150,7 @@ apm = make_apm_client(
         "SECRET_TOKEN": settings.apm_secret_token,
         "SERVER_URL": settings.apm_url,
         "ENVIRONMENT": settings.segment,
-        "TRANSACTIONS_IGNORE_PATTERNS": ["^OPTIONS", "/v1/status"],
+        "TRANSACTIONS_IGNORE_PATTERNS": ["^OPTIONS", "/status"],
         "ENABLED": settings.apm_enabled,
         "SERVICE_VERSION": version,
         "TRANSACTION_SAMPLE_RATE": settings.apm_transaction_sample_rate,
@@ -149,16 +159,18 @@ apm = make_apm_client(
 )
 app.add_middleware(ElasticAPM, client=apm)
 
-
-@app.on_event("startup")
-async def startup():
-    pass
-
-
-@app.on_event("shutdown")
-async def shutdown():
-    pass
-
-
 ROUTE_PREFIX = "/v1"
 app.include_router(api_router, prefix=ROUTE_PREFIX)
+app.include_router(endpoints.router, tags=["Dev"])
+
+try:
+    from services.licensing.pacts import pact_router
+
+    app.include_router(
+        pact_router,
+        include_in_schema=False,
+        prefix=f"/pact{ROUTE_PREFIX}",
+        tags=["Pact"],
+    )
+except ImportError:
+    pass

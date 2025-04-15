@@ -3,8 +3,6 @@ import uuid as uuid_module
 from functools import reduce
 from typing import List, Dict, Tuple
 
-import pytz
-
 from services.licensing.data.repository import LicensingRepository
 from services.licensing.custom_types import (
     SeatStatus,
@@ -27,10 +25,21 @@ class LicensingService:
     def __init__(self, licensing_repository: LicensingRepository):
         self.licensing_repository = licensing_repository
 
+    async def is_db_alive(self) -> bool:
+        return await self.licensing_repository.is_db_alive()
+
+    async def delete_license(self, license_uuid: str) -> None:
+        await self.licensing_repository.delete_license(license_uuid)
+
     async def create_license(self, **license_data) -> Dict[str, str]:
         data = license_data.copy()
         if "uuid" not in data:
             data["uuid"] = uuid_module.uuid4()
+        # extra_seats falls back to 0 if None
+        data["extra_seats"] = data["extra_seats"] or 0
+        # nof_seats falls back to infinity (-1) if None
+        if data["nof_seats"] is None:
+            data["nof_seats"] = -1
         await self.licensing_repository.create_license(**data)
         await self.licensing_repository.create_event_log(
             EventType.LICENSE_CREATED, data
@@ -44,6 +53,7 @@ class LicensingService:
             "owner_type": data["owner_type"],
             "nof_seats": data["nof_seats"],
             "nof_free_seats": data["nof_seats"],
+            "nof_occupied_seats": 0,
             "extra_seats": data["extra_seats"],
             "is_trial": data["is_trial"],
         }
@@ -56,7 +66,7 @@ class LicensingService:
         )
 
     async def update_license(
-        self, license_uuid: str, license_filter_restrictions=None, **data
+        self, license_uuid: str, license_filter_restrictions=None, **license_data
     ) -> License:
         """
         License object update method.
@@ -65,6 +75,13 @@ class LicensingService:
         :param license_filter_restrictions:
         :returns the just update license (DTO object)
         """
+        data = license_data.copy()
+        # extra_seats falls back to 0 if None
+        if "extra_seats" in data:
+            data["extra_seats"] = data["extra_seats"] or 0
+        # nof_seats falls back to infinity (-1) if None
+        if "nof_seats" in data and data["nof_seats"] is None:
+            data["nof_seats"] = -1
         l_ = await self.licensing_repository.update_license(
             license_uuid=license_uuid,
             license_filter_restrictions=license_filter_restrictions,
@@ -120,13 +137,14 @@ class LicensingService:
         :returns all the product EIDs gotten from the licenses
         :raises HTTPException: possible codes 400, 401, 409, 422
         """
-        now = datetime.datetime.now(tz=pytz.timezone("UTC"))
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
 
         # 1. get all seats 'occupied' by the requesting user
         occupied_seats = await self.licensing_repository.get_occupied_seats(user_eid)
 
         # 1.b seats will also be updated ...
         occupied_seats_to_remove = []
+
         for seat in occupied_seats:
             # update 'last_accessed_at' in any case!
             seat.last_accessed_at = now
@@ -136,6 +154,7 @@ class LicensingService:
                 occupied_seats_to_remove.append(seat)
                 seat.status = SeatStatus.EXPIRED
                 seat.is_occupied = False
+                continue
 
             # is the memberships disjoint with the owners?
             owners = {
@@ -189,9 +208,9 @@ class LicensingService:
         # distinct product eid are inserted. This gives a list of all licenses,
         # where all possible products are available ...
         licenses_to_occupy = reduce(
-            lambda acc, l_: acc + [l_]
-            if not acc or acc[-1].product_eid != l_.product_eid
-            else acc,
+            lambda acc, l_: (
+                acc + [l_] if not acc or acc[-1].product_eid != l_.product_eid else acc
+            ),
             filtered_and_sorted_valid_licenses,
             [],
         )
@@ -206,6 +225,7 @@ class LicensingService:
                 ref_license=_l.id,
                 uuid=_l.uuid,  # uuid will only be used to build up events
             )
+
         # 6.  merge the relevant products
         accessible_products = occupied_product_eids + [
             l_.product_eid for l_ in licenses_to_occupy
@@ -324,6 +344,16 @@ class LicensingService:
             page, page_size, order_by_fields, hierarchy_provider_uri, user_eid
         )
 
+    async def get_managed_licenses_by_id(
+        self,
+        license_id: str,
+        hierarchy_provider_uri: str,
+        user_eid: str,
+    ) -> License:
+        return await self.licensing_repository.get_managed_licenses_by_id(
+            license_id, hierarchy_provider_uri, user_eid
+        )
+
     async def get_licenses_for_entities_paginated(
         self,
         page: int,
@@ -331,7 +361,7 @@ class LicensingService:
         order_by_fields: List[Tuple[str, str]],
         hierarchy_provider_uri: str,
         entities: List[Entity],
-    ) -> List[License]:
+    ) -> Tuple[List[License], int]:
         return await self.licensing_repository.get_licenses_for_entities_paginated(
             page, page_size, order_by_fields, hierarchy_provider_uri, entities
         )
@@ -344,7 +374,7 @@ class LicensingService:
         filter_restrictions: Dict[str, List[str]],
         allowed_filter_restrictions: List[str],
         **filters
-    ) -> List[License]:
+    ) -> Tuple[List[License], int]:
         return await self.licensing_repository.get_licenses_paginated(
             page,
             page_size,

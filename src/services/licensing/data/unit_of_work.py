@@ -14,6 +14,7 @@ The implementation of this unit of work class is taken from
     José Haro Peralta, Microservice APIs, Manning Publications,
     2023, ISBN: 9781617298417
 """
+
 from abc import ABC, abstractmethod
 
 

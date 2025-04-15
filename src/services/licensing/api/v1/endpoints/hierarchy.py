@@ -165,3 +165,53 @@ async def get_licenses_for_entity(
                 payload["iss"], data.entity_type, data.entity_eid, hierarchies
             )
         ]
+
+
+@router.post("/licenses/{license_id}", status_code=http_status.HTTP_200_OK)
+async def get_managed_license_by_uuid(
+    license_id: str,
+    _: HierarchiesSchema = Body(default_factory=HierarchiesSchema),
+    token_data: Tuple[str, Dict[str, Any]] = Depends(authorize_with_hierarchies_token),
+) -> LicenseManagedSchema | None:
+    """
+    Route for getting all the licenses in the hierarchy of a given user that they have
+    created.
+
+    ### Example Bearer Token structure
+    ```
+    {
+        "iss": "https://acc.bettermarks.com/ucm",
+        "exp": 1701789570.99798,
+        "sub": "12@EN_test",
+        "iat": 1701788970.99799,
+        "jti": "2b47ca46-28b9-4b8d-bd1c-a893acb9de29",
+        "hashes": {
+            "memberships": {
+                "alg": "SHA256",
+                "hash": "86f8b8313c183b3f9ee74b9c042ee440b894f690e9f6308de3da63fd4a6b8"
+            }
+        }
+    }
+    ```
+    \f
+    :param license_id: License ID
+        :param _: a list of hierarchies of a user (is not used right now)
+    :param token_data: info gotten from hierarchies token
+    :return: a JSON object
+    """
+    _, payload = token_data
+
+    async with transaction_manager() as tm:
+        license_item = await LicensingService(
+            repository(tm.session)
+        ).get_managed_licenses_by_id(
+            license_id,
+            payload["iss"],
+            payload["sub"],
+        )
+        item = (
+            LicenseManagedSchema.parse_obj(asdict(license_item))
+            if license_item
+            else None
+        )
+        return item

@@ -1,4 +1,6 @@
-from pydantic import BaseModel as BaseSchema
+from typing import Optional
+
+from services.licensing.api.v1.schema.base import BaseSchema
 
 
 class InvoiceCreateSchema(BaseSchema):
@@ -9,28 +11,28 @@ class InvoiceCreateSchema(BaseSchema):
     valid_to: str
     firstname: str
     lastname: str
-    phone: str | None
+    phone: Optional[str] = None
     email: str
     address_institution: str
     address_line2: str
-    address_line3: str | None
+    address_line3: Optional[str] = None
     address_street: str
     address_zip: str
     address_city: str
     address_country: str
     survey: str
-    vat_id: str | None
-    system: str | None
-    license_id: str | None
+    vat_id: Optional[str] = None
+    system: Optional[str] = None
+    license_id: Optional[str] = None
 
     class Config:
         from_attributes = True
 
 
 class InvoiceCreatedSchema(BaseSchema):
-    id: int | None
+    id: Optional[int] = None
     is_valid: bool
     page_number: int
-    confirmation_message: str | None
-    confirmation_type: str | None
-    validation_messages: dict | None
+    confirmation_message: Optional[str] = None
+    confirmation_type: Optional[str] = None
+    validation_messages: Optional[dict] = None

@@ -42,18 +42,3 @@ def create_licensing_token(claims: dict):
     )
     token.make_signed_token(get_key_from_pem(settings.licensing_service_private_key))
     return token.serialize()
-
-
-def create_shop_token(claims: dict):
-    """
-    Creates a JWT token based on EC-256 algorithm using the 'shop service' private key.
-    todo: should be moved to `shop` service
-    :param claims: the claims as a dict
-    :return:
-    """
-    token = jwt.JWT(
-        header={"typ": "JWT", "kid": settings.shop_service_kid, "alg": "ES256"},
-        claims=claims,
-    )
-    token.make_signed_token(get_key_from_pem(settings.shop_service_private_key))
-    return token.serialize()

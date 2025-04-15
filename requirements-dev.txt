@@ -202,7 +202,7 @@ pyyaml==6.0.2
     #   commitizen
 questionary==2.0.1
     # via commitizen
-requests==2.31.0
+requests==2.32.2
     # via -r /tmp/renovate/repos/github/bettermarks/opal/requirements.txt
 six==1.16.0
     # via

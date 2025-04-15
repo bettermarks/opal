@@ -160,18 +160,12 @@ source .venv/bin/activate
 
 #### Sync your env
 ```shell
-uv sync --extra export --extra tests
-```
-
-#### Install dependencies
-```shell
-uv pip install -e '.[export,tests]'
+uv sync --extra export
 ```
 
 ### Run uvicorn
 You can start the application using the following commands:
 ```sh
-cd <licensing>
 export PYTHONPATH=$PWD/src
 uvicorn services.licensing.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
 ```

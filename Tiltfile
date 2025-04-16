@@ -1,7 +1,10 @@
 local("make dist", dir="k8s")
 
-k8s_yaml("k8s/dist/namespace.k8s.yaml")
-k8s_yaml([f for f in listdir(os.path.join("k8s", "dist")) if not "namespace" in f])
+# Create namespace if it doesn't exist
+local(
+    "kubectl get namespace integration --no-headers || kubectl create namespace integration"
+)
+k8s_yaml(listdir(os.path.join("k8s", "dist")))
 
 k8s_resource(
     objects=[
@@ -46,28 +49,6 @@ def build_local():
     )
 
 
-def build_remote():
-    build_info = decode_json(
-        local(
-            "curl -s https://licensing-{}.bettermarks.com/version".format(SEGMENT),
-            quiet=True,
-        )
-    )
-    version = build_info["version"]
-    print("Use remote version {}".format(version))
-    docker_build(
-        "licensing",
-        ".",
-        dockerfile_contents="FROM 676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:{}".format(
-            version
-        ),
-    )
-
-
 SEGMENT = os.getenv("OPAL_SEGMENT", "loc00")
-BUILD_LOCAL = SEGMENT.startswith("loc")
 
-if BUILD_LOCAL:
-    build_local()
-else:
-    build_remote()
+build_local()

@@ -1,5 +1,4 @@
 import { createLicensingApp } from "./lib/licensing/licensing-app";
-import { createNamespaceChart } from "./lib/namespace";
 import { Segment } from "./lib/types";
 import { Namespace } from "./lib/types";
 import { App } from "cdk8s";
@@ -13,8 +12,6 @@ if (SEGMENT !== Segment.LOC00 && IMAGE_TAG === "") {
 }
 
 const app = new App({ outdir: "dist" });
-
-createNamespaceChart(app, Namespace.LICENSING);
 
 createLicensingApp(app, {
   segment: SEGMENT,

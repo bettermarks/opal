@@ -36,4 +36,4 @@ COPY ./alembic.ini .
 COPY ./uvicorn_disable_logging.json .
 COPY ./src/services/licensing/data/sqlalchemy/migrations ./src/services/licensing/data/sqlalchemy/migrations
 
-CMD ["uvicorn", "services.licensing.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--timeout-keep-alive", "0"]
+CMD ["uvicorn", "services.licensing.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--log-config", "uvicorn_disable_logging.json", "--timeout-keep-alive", "0"]

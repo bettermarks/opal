@@ -44,7 +44,7 @@ def build_local():
     docker_build(
         "licensing",
         ".",
-        dockerfile=os.path.join("k8s", "Dockerfile.dev"),
+        dockerfile=os.path.join("k8s", "Dockerfile"),
         build_args={"python_version": python_version},
     )
 

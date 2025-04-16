@@ -64,15 +64,15 @@ class LicenseUpdateSchema(BaseSchema):
             "Extra seats make it possible to “overbook” the license seats of a license."
         ),
     )
-    valid_from: Optional[datetime.date] = None
-    valid_to: Optional[datetime.date] = None
+    valid_from: datetime.date | None = None
+    valid_to: datetime.date | None = None
 
 
 class LicenseTrialSchema(LicenseBaseDeserializerSchema):
     product_eid: str = Field(min_length=1, max_length=256)
     owner_eid: str
     memberships: list
-    duration_weeks: Optional[int] = None
+    duration_weeks: int | None = None
 
     class Config:
         json_schema_extra = {
@@ -197,6 +197,6 @@ class LicenseCompleteSchema(LicenseBaseSerializerSchema):
     id: int
     manager_eid: str
     owner_eids: List[str]
-    notes: Optional[str] = None
+    notes: str | None = None
     created_at: datetime.datetime
-    updated_at: Optional[datetime.datetime] = None
+    updated_at: datetime.datetime | None = None

@@ -64,7 +64,7 @@ def build_remote():
     )
 
 
-SEGMENT = os.getenv("LICENSING_SEGMENT", "loc00")
+SEGMENT = os.getenv("OPAL_SEGMENT", "loc00")
 BUILD_LOCAL = SEGMENT.startswith("loc")
 
 if BUILD_LOCAL:

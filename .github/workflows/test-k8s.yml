@@ -1,0 +1,58 @@
+name: Tests k8s
+
+on:
+  pull_request:
+    paths:
+      - k8s/**
+      - Tiltfile
+    branches: [master]
+  push:
+    paths:
+      - k8s/**
+      - Tiltfile
+    branches: [master]
+
+jobs:
+  cdk8s-tests:
+    runs-on: buildjet-4vcpu-ubuntu-2204
+    defaults:
+      run:
+        working-directory: ./k8s
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: k8s/.nvmrc
+      - name: Install dependencies
+        run: npm ci
+      # Build command also run synth, tests to ensure that stack can be build
+      - name: Run build
+        run: npm run build
+
+  tilt-check:
+    runs-on: buildjet-4vcpu-ubuntu-2204
+    needs:
+      - cdk8s-tests
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: k8s/.nvmrc
+      - name: Install tilt
+        shell: bash
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash
+      - name: Create k8s cluster
+        uses: helm/kind-action@v1
+      - name: Check Tilt
+        shell: bash
+        run: |
+          tilt ci

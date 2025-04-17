@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ingress-nginx-chart with tls 1`] = `
+[
+  {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": {
+      "name": "licensing-ingress",
+      "namespace": "dummy-namespace",
+    },
+    "spec": {
+      "ingressClassName": "loc00-nginx",
+      "rules": [
+        {
+          "host": "licensing.bettermarks.loc",
+          "http": {
+            "paths": [
+              {
+                "backend": {
+                  "service": {
+                    "name": "licensing-api",
+                    "port": {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+]
+`;

@@ -1,19 +1,14 @@
 from typing import Tuple, List, Any
-
+from fastapi_pagination.customization import CustomizedPage, UseParamsFields
 from fastapi_pagination.links import Page
 from fastapi_pagination.utils import verify_params
 
-from pydantic import Field
-
 from services.licensing import settings
 
-CustomPage = Page.with_custom_options(
-    size=Field(
-        settings.pagination_default_pagesize,
-        ge=settings.pagination_min_pagesize,
-        le=settings.pagination_max_pagesize,
-    ),
-)
+
+CustomPage = CustomizedPage[
+    Page, UseParamsFields(size=settings.pagination_default_pagesize)
+]
 
 
 def paginate(items: List[Any], page: int, page_size: int, total: int):
@@ -23,7 +18,9 @@ def paginate(items: List[Any], page: int, page_size: int, total: int):
         page=page,
         size=max(len(items), 1),
         total=total,
-        pages=total / page_size if not total % page_size else total / page_size + 1,
+        pages=(
+            total / page_size if not total % page_size else int(total / page_size) + 1
+        ),
     )
 
 

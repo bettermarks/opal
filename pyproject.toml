@@ -1,16 +1,67 @@
+[project]
+name = "licensing"
+requires-python = ">= 3.12"
+version = "0.0.1"
+authors = [{ name = "bettermarks GmbH", email = "bmdevops@bettermarks.com" }]
+description = "Licensing Service."
+readme = "README.md"
+dependencies = [
+	"aiohttp==3.11.11",
+	"alembic==1.14.0",
+	"asgi-correlation-id==4.3.4",
+	"asyncpg==0.30.0",
+	"click==8.1.8",
+	"cryptography==42.0.7",
+	"elastic-apm==6.23.0",
+	"fastapi==0.115.6",
+	"fastapi-pagination==0.12.34",
+	"httptools==0.6.4",
+	"httpx==0.28.1",
+	"jsonschema==4.23.0",
+	"jwcrypto==1.5.6",
+	"pydantic==2.10.4",
+	"python-dateutil==2.9.0.post0",
+	"python-decouple==3.8",
+	"pyyaml==6.0.2",
+	"requests==2.32.3",
+	"SQLAlchemy[asyncio]==2.0.36",
+	"structlog==24.4.0",
+	"uvicorn==0.34.0",
+]
+
+
+[project.optional-dependencies]
+export = ["motor==3.6.0", "paramiko==3.5.0", "sshtunnel==0.4.0"]
+
+[dependency-groups]
+dev = [
+	"black==25.1.0",
+	"bump2version==1.0.1",
+	"commitizen==4.1.0",
+	"freezegun==1.5.1",
+	"mock==5.1.0",
+	"pytest==8.3.4",
+	"pytest-anything==0.1.4",
+	"pytest_asyncio==0.25.1",
+	"pytest-cov==6.0.0",
+	"pytest-env==1.1.5",
+	"pytest-mock==3.14.0",
+	"pytest-watch==4.2.0",
+]
+
 [build-system]
-requires = ["setuptools ==74.1.2", "wheel"]
+requires = ["setuptools ==75.7.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.0.0"
+version = "0.29.1"
 tag_format = "$version"
 
 version_files = [
-    "VERSION",
+	"VERSION",
 	"setup.py:version",
-	"src/services/licensing/__init__.py"
+	"src/services/licensing/__init__.py",
 ]
 
 [tool.black]

@@ -30,7 +30,7 @@ async def purchase_license(
     data = LicensePurchaseSchema(**payload["order"])
 
     async with transaction_manager() as tm:
-        license_ = await LicensingService(repository(tm.session)).create_license(
+        license_dict = await LicensingService(repository(tm.session)).create_license(
             hierarchy_provider_uri=data.hierarchy_provider_uri,
             manager_eid=payload["sub"],
             product_eid=data.product_eid,
@@ -49,10 +49,10 @@ async def purchase_license(
             logger.info(
                 "Successfully created license",
                 is_trial=False,
-                uuid=license_["uuid"],
-                product=license_["product_eid"],
-                owner_type=license_["owner_type"],
-                nof_seats=license_["nof_seats"],
+                uuid=license_dict["uuid"],
+                product=license_dict["product_eid"],
+                owner_type=license_dict["owner_type"],
+                nof_seats=license_dict["nof_seats"],
             )
         except DuplicateEntryException:
             raise HTTPException(
@@ -63,4 +63,26 @@ async def purchase_license(
                     "already exists"
                 ),
             )
-    return license_
+    return LicenseCreatedSchema.parse_obj(license_dict)
+
+
+@router.put("/licenses/{license_id}", status_code=http_status.HTTP_200_OK)
+async def upgrade_license(
+    license_id,
+    token_data: Tuple[str, Dict[str, Any]] = Depends(authorize_with_shop_token),
+) -> LicenseCreatedSchema:
+    _, payload = token_data
+    data = LicensePurchaseSchema(**payload["order"])
+
+    async with transaction_manager() as tm:
+        license_dict = await LicensingService(repository(tm.session)).update_license(
+            license_uuid=license_id, nof_seats=data.nof_seats
+        )
+        try:
+            await tm.commit()
+        except Exception:
+            raise HTTPException(
+                status_code=http_status.HTTP_400_BAD_REQUEST,
+                message=("License update failed"),
+            )
+    return LicenseCreatedSchema.parse_obj(license_dict)

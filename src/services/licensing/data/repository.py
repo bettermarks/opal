@@ -45,11 +45,19 @@ class LicensingRepository(ABC):
         pass
 
     @abstractmethod
+    async def is_db_alive(self) -> bool:
+        pass
+
+    @abstractmethod
     async def create_license(self, **license_data) -> None:
         pass
 
     @abstractmethod
     async def create_seat(self, **seat_data) -> None:
+        pass
+
+    @abstractmethod
+    async def delete_license(self, license_uuid: str) -> None:
         pass
 
     @abstractmethod
@@ -70,7 +78,7 @@ class LicensingRepository(ABC):
         order_by_fields: List[Tuple[str, str]],
         hierarchy_provider_uri: str,
         entities: List[Entity],
-    ) -> List[License]:
+    ) -> Tuple[List[License], int]:
         pass
 
     @abstractmethod
@@ -81,7 +89,16 @@ class LicensingRepository(ABC):
         order_by_fields: List[Tuple[str, str]],
         hierarchy_provider_uri: str,
         user_eid: str,
-    ) -> List[License]:
+    ) -> Tuple[List[License], int]:
+        pass
+
+    @abstractmethod
+    async def get_managed_licenses_by_id(
+        self,
+        license_id: str,
+        hierarchy_provider_uri: str,
+        user_eid: str,
+    ) -> License:
         pass
 
     @abstractmethod
@@ -93,7 +110,7 @@ class LicensingRepository(ABC):
         filter_restrictions: Dict[str, List[str]],
         allowed_filter_restrictions: List[str],
         **filters
-    ) -> List[License]:
+    ) -> Tuple[List[License], int]:
         pass
 
     async def get_license(

@@ -1,12 +1,15 @@
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
+import urllib
+from functools import lru_cache
 
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import (
+    create_async_engine,
+    AsyncSession,
+    AsyncEngine,
+    async_sessionmaker,
+)
 from services.licensing.exceptions import DuplicateEntryException
 from services.licensing.data.unit_of_work import TransactionManager
-
-
-import urllib
 from services.licensing.json import custom_json_dumps
 
 
@@ -21,16 +24,22 @@ def postgres_dsn(
     )
 
 
+@lru_cache(maxsize=None)
+def get_async_engine(db_uri: str) -> AsyncEngine:
+    """Cached engine creation ..."""
+    return create_async_engine(
+        db_uri,
+        echo=False,
+        json_serializer=custom_json_dumps,
+        connect_args={"server_settings": {"jit": "off"}},
+    )
+
+
 class TransactionManagerImpl(TransactionManager):
     def __init__(self, db_uri: str, implicit_commit: bool = False):
         self._implicit_commit = implicit_commit
-        self._engine = create_async_engine(
-            db_uri,
-            echo=False,
-            json_serializer=custom_json_dumps,
-            connect_args={"server_settings": {"jit": "off"}},
-        )
-        self._sessionmaker = sessionmaker(
+        self._engine = get_async_engine(db_uri)
+        self._sessionmaker = async_sessionmaker(
             bind=self._engine, expire_on_commit=False, class_=AsyncSession
         )
         self._session = None

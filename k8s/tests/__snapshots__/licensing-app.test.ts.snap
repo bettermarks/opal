@@ -1,0 +1,3019 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Licensing at ci00 should match chart for licensing secrets 1`] = `
+[
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-licensing",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "decodingStrategy": "Base64",
+            "key": "licensing/ci00/licensing-service-private-key",
+            "property": "LICENSING_SERVICE_PRIVATE_KEY",
+          },
+          "secretKey": "LICENSING_SERVICE_PRIVATE_KEY",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/ci00-pg-cluster-licensing/credentials",
+          },
+        },
+        {
+          "extract": {
+            "key": "licensing/ci00/credentials",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "licensing",
+      },
+    },
+  },
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "key": "backend/ci00/credentials",
+            "property": "BM_ENCRYPTION_PASSWORD",
+          },
+          "secretKey": "BM_ENCRYPTION_PASSWORD",
+        },
+        {
+          "remoteRef": {
+            "key": "stackit/ci00/application/readonly-secret",
+            "property": "MONGODB_URI",
+          },
+          "secretKey": "MONGODB_URI",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/ci00-pg-cluster-licensing/credentials",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "event-export",
+      },
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci00 should match snapshot for configmap 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "data": {
+      "APM_ENABLED": "true",
+      "APM_TRANSACTION_SAMPLE_RATE": "0.1",
+      "APM_URL": "https://apm.bettermarks.com",
+      "EVENTS_EXPORT_EXPORT_HOOK": "services.licensing.export.bettermarks_export.modified_event",
+      "EVENTS_EXPORT_FUNCTION": "services.licensing.export.bettermarks_export.export_event",
+      "JWT_VERIFICATION_KEYS": "{"794724cc-d956-4009-9eba-46d2aa38eabc":{"format":"pem","desc":"used as public (EC) JWS signature key OF shop service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEivNA6e6LoJKM886bFOCxQ7+3F36P\\n+6QLxAGtJ5GIQDAQsOpaiKXAVaqJ2nAhGCdJbByzmtRn4nR/t0bU4jCGCA==\\n-----END PUBLIC KEY-----\\n"},"bd0bc964-cddf-4705-85ba-8d57be91977c":{"format":"pem","desc":"used as public (EC) JWS signature key OF hierarchy provider","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdlDx9TUME1wIxWNju6ax+RZOlkYO\\njDigVFlep5dk30kCynjDYjBp0EsO4bePiyfK913/swEZ/r/CzUc2B7VlcQ==\\n-----END PUBLIC KEY-----\\n"},"9aac3057-e492-448e-90bf-1404124056b0":{"format":"pem","desc":"used as public (EC) JWS signature key OF ordering service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEldVFYtN5IffED9PrPRHBwFmXHYWK\\ngz9Inj/8651FRWekYyWvkdrvWkNRj5OLOpqtWRXFnRjqdxgeUPPJduajLQ==\\n-----END PUBLIC KEY-----\\n"},"cec04f88-14cb-442c-94c2-86196e33c926":{"format":"pem","desc":"used as public (EC) JWS signature key OF backoffice service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7jG0Lko1bL1iy0exdlWt6ugJLN/D\\n6W79hKhYYiMqu43fJci2Gd3huo6WQG9FrnoIzNIy6+pFbTbtVSuljy0EBQ==\\n-----END PUBLIC KEY-----\\n"}}",
+      "LICENSING_SERVICE_URL": "https://licensing-ci00.bettermarks.com",
+      "LOG_FORMAT": "json",
+      "LOG_LEVEL": "INFO",
+      "SDWH_DB_HOST": "localhost",
+      "SDWH_DB_NAME": "bmsdwh",
+      "SDWH_DB_PORT": "5432",
+      "SDWH_DB_USER": "bmsdwhbiuser",
+      "SDWH_PORT": "22",
+      "SDWH_USER": "ionos",
+      "SEGMENT": "ci00",
+    },
+    "immutable": false,
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "licensing-config",
+      "namespace": "licensing",
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci00 should match snapshot for licensing chart 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "replicas": 2,
+      "selector": {
+        "matchLabels": {
+          "app": "licensing-api",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 1,
+          "maxUnavailable": 0,
+        },
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "licensing-api",
+          },
+        },
+        "spec": {
+          "containers": [
+            {
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "httpGet": {
+                  "path": "/livez",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "name": "licensing-api",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                },
+              ],
+              "readinessProbe": {
+                "httpGet": {
+                  "path": "/status",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "resources": {
+                "limits": {
+                  "memory": "256Mi",
+                },
+                "requests": {
+                  "cpu": 0.25,
+                  "memory": "256Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [],
+          "nodeSelector": {
+            "nodetype": "application",
+          },
+          "serviceAccountName": "licensing",
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+          ],
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "kubernetes.io/hostname",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "ports": [
+        {
+          "port": 80,
+          "targetPort": 8000,
+        },
+      ],
+      "selector": {
+        "app": "licensing-api",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci00 should match snapshot for licensing event export cronjob 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": {
+      "name": "licensing-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "concurrencyPolicy": "Forbid",
+      "jobTemplate": {
+        "metadata": {
+          "name": "licensing-event-export",
+          "namespace": "licensing",
+        },
+        "spec": {
+          "backoffLimit": 1,
+          "suspend": false,
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "src/services/licensing/scripts/export_events.py",
+                    "--events-per-run=12000",
+                    "--log-format=json",
+                  ],
+                  "envFrom": [
+                    {
+                      "configMapRef": {
+                        "name": "licensing-config",
+                      },
+                    },
+                    {
+                      "secretRef": {
+                        "name": "event-export",
+                      },
+                    },
+                  ],
+                  "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "licensing-event-export",
+                  "resources": {
+                    "limits": {
+                      "memory": "128Mi",
+                    },
+                    "requests": {
+                      "cpu": 0.1,
+                      "memory": "128Mi",
+                    },
+                  },
+                },
+              ],
+              "nodeSelector": {
+                "nodetype": "application",
+              },
+              "restartPolicy": "Never",
+              "serviceAccountName": "licensing",
+            },
+          },
+          "ttlSecondsAfterFinished": 600,
+        },
+      },
+      "schedule": "*/20 * * * *",
+      "suspend": false,
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci00 should match snapshot for licensing migration job 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "name": "licensing-migration",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "backoffLimit": 1,
+      "template": {
+        "spec": {
+          "containers": [
+            {
+              "args": [
+                "alembic upgrade head",
+              ],
+              "command": [
+                "bash",
+                "-c",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "licensing-migration",
+              "resources": {
+                "limits": {
+                  "memory": "128Mi",
+                },
+                "requests": {
+                  "cpu": 0.05,
+                  "memory": "128Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [
+            {
+              "command": [
+                "sh",
+                "-c",
+                "until pg_isready --host \${DB_HOST}; do sleep 1; done",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "postgres:14",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "wait-for-database-migration",
+              "resources": {
+                "limits": {
+                  "memory": "64Mi",
+                },
+                "requests": {
+                  "cpu": 0.1,
+                  "memory": "64Mi",
+                },
+              },
+            },
+          ],
+          "nodeSelector": {},
+          "restartPolicy": "Never",
+          "serviceAccountName": "licensing",
+        },
+      },
+      "ttlSecondsAfterFinished": 60,
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci00 should match snapshot for service account 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "imagePullSecrets": [
+      {
+        "name": "registry-credentials",
+      },
+    ],
+    "kind": "ServiceAccount",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "Role",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "rules": [
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resources": [
+          "pods",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "RoleBinding",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "Role",
+      "name": "licensing",
+    },
+    "subjects": [
+      {
+        "kind": "ServiceAccount",
+        "name": "licensing",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Licensing at ci01 should match chart for licensing secrets 1`] = `
+[
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-licensing",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "decodingStrategy": "Base64",
+            "key": "licensing/ci01/licensing-service-private-key",
+            "property": "LICENSING_SERVICE_PRIVATE_KEY",
+          },
+          "secretKey": "LICENSING_SERVICE_PRIVATE_KEY",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/ci01-pg-cluster-licensing/credentials",
+          },
+        },
+        {
+          "extract": {
+            "key": "licensing/ci01/credentials",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "licensing",
+      },
+    },
+  },
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "key": "backend/ci01/credentials",
+            "property": "BM_ENCRYPTION_PASSWORD",
+          },
+          "secretKey": "BM_ENCRYPTION_PASSWORD",
+        },
+        {
+          "remoteRef": {
+            "key": "stackit/ci01/application/readonly-secret",
+            "property": "MONGODB_URI",
+          },
+          "secretKey": "MONGODB_URI",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/ci01-pg-cluster-licensing/credentials",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "event-export",
+      },
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci01 should match snapshot for configmap 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "data": {
+      "APM_ENABLED": "true",
+      "APM_TRANSACTION_SAMPLE_RATE": "0.1",
+      "APM_URL": "https://apm.bettermarks.com",
+      "JWT_VERIFICATION_KEYS": "{"794724cc-d956-4009-9eba-46d2aa38eabc":{"format":"pem","desc":"used as public (EC) JWS signature key OF shop service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEivNA6e6LoJKM886bFOCxQ7+3F36P\\n+6QLxAGtJ5GIQDAQsOpaiKXAVaqJ2nAhGCdJbByzmtRn4nR/t0bU4jCGCA==\\n-----END PUBLIC KEY-----\\n"},"bd0bc964-cddf-4705-85ba-8d57be91977c":{"format":"pem","desc":"used as public (EC) JWS signature key OF hierarchy provider","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdlDx9TUME1wIxWNju6ax+RZOlkYO\\njDigVFlep5dk30kCynjDYjBp0EsO4bePiyfK913/swEZ/r/CzUc2B7VlcQ==\\n-----END PUBLIC KEY-----\\n"},"9aac3057-e492-448e-90bf-1404124056b0":{"format":"pem","desc":"used as public (EC) JWS signature key OF ordering service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEldVFYtN5IffED9PrPRHBwFmXHYWK\\ngz9Inj/8651FRWekYyWvkdrvWkNRj5OLOpqtWRXFnRjqdxgeUPPJduajLQ==\\n-----END PUBLIC KEY-----\\n"},"cec04f88-14cb-442c-94c2-86196e33c926":{"format":"pem","desc":"used as public (EC) JWS signature key OF backoffice service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7jG0Lko1bL1iy0exdlWt6ugJLN/D\\n6W79hKhYYiMqu43fJci2Gd3huo6WQG9FrnoIzNIy6+pFbTbtVSuljy0EBQ==\\n-----END PUBLIC KEY-----\\n"}}",
+      "LICENSING_SERVICE_URL": "https://licensing-ci01.bettermarks.com",
+      "LOG_FORMAT": "json",
+      "LOG_LEVEL": "INFO",
+      "SEGMENT": "ci01",
+    },
+    "immutable": false,
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "licensing-config",
+      "namespace": "licensing",
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci01 should match snapshot for licensing chart 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "replicas": 2,
+      "selector": {
+        "matchLabels": {
+          "app": "licensing-api",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 1,
+          "maxUnavailable": 0,
+        },
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "licensing-api",
+          },
+        },
+        "spec": {
+          "containers": [
+            {
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "httpGet": {
+                  "path": "/livez",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "name": "licensing-api",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                },
+              ],
+              "readinessProbe": {
+                "httpGet": {
+                  "path": "/status",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "resources": {
+                "limits": {
+                  "memory": "256Mi",
+                },
+                "requests": {
+                  "cpu": 0.25,
+                  "memory": "256Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [],
+          "nodeSelector": {
+            "nodetype": "application",
+          },
+          "serviceAccountName": "licensing",
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+          ],
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "kubernetes.io/hostname",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "ports": [
+        {
+          "port": 80,
+          "targetPort": 8000,
+        },
+      ],
+      "selector": {
+        "app": "licensing-api",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci01 should match snapshot for licensing event export cronjob 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": {
+      "name": "licensing-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "concurrencyPolicy": "Forbid",
+      "jobTemplate": {
+        "metadata": {
+          "name": "licensing-event-export",
+          "namespace": "licensing",
+        },
+        "spec": {
+          "backoffLimit": 1,
+          "suspend": false,
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "src/services/licensing/scripts/export_events.py",
+                    "--events-per-run=12000",
+                    "--log-format=json",
+                  ],
+                  "envFrom": [
+                    {
+                      "configMapRef": {
+                        "name": "licensing-config",
+                      },
+                    },
+                    {
+                      "secretRef": {
+                        "name": "event-export",
+                      },
+                    },
+                  ],
+                  "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "licensing-event-export",
+                  "resources": {
+                    "limits": {
+                      "memory": "128Mi",
+                    },
+                    "requests": {
+                      "cpu": 0.1,
+                      "memory": "128Mi",
+                    },
+                  },
+                },
+              ],
+              "nodeSelector": {
+                "nodetype": "application",
+              },
+              "restartPolicy": "Never",
+              "serviceAccountName": "licensing",
+            },
+          },
+          "ttlSecondsAfterFinished": 600,
+        },
+      },
+      "schedule": "*/20 * * * *",
+      "suspend": false,
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci01 should match snapshot for licensing migration job 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "name": "licensing-migration",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "backoffLimit": 1,
+      "template": {
+        "spec": {
+          "containers": [
+            {
+              "args": [
+                "alembic upgrade head",
+              ],
+              "command": [
+                "bash",
+                "-c",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "licensing-migration",
+              "resources": {
+                "limits": {
+                  "memory": "128Mi",
+                },
+                "requests": {
+                  "cpu": 0.05,
+                  "memory": "128Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [
+            {
+              "command": [
+                "sh",
+                "-c",
+                "until pg_isready --host \${DB_HOST}; do sleep 1; done",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "postgres:14",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "wait-for-database-migration",
+              "resources": {
+                "limits": {
+                  "memory": "64Mi",
+                },
+                "requests": {
+                  "cpu": 0.1,
+                  "memory": "64Mi",
+                },
+              },
+            },
+          ],
+          "nodeSelector": {},
+          "restartPolicy": "Never",
+          "serviceAccountName": "licensing",
+        },
+      },
+      "ttlSecondsAfterFinished": 60,
+    },
+  },
+]
+`;
+
+exports[`Licensing at ci01 should match snapshot for service account 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "imagePullSecrets": [
+      {
+        "name": "registry-credentials",
+      },
+    ],
+    "kind": "ServiceAccount",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "Role",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "rules": [
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resources": [
+          "pods",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "RoleBinding",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "Role",
+      "name": "licensing",
+    },
+    "subjects": [
+      {
+        "kind": "ServiceAccount",
+        "name": "licensing",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Licensing at dev00 should match chart for licensing secrets 1`] = `
+[
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-licensing",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "decodingStrategy": "Base64",
+            "key": "licensing/dev00/licensing-service-private-key",
+            "property": "LICENSING_SERVICE_PRIVATE_KEY",
+          },
+          "secretKey": "LICENSING_SERVICE_PRIVATE_KEY",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/dev00-pg-cluster-licensing/credentials",
+          },
+        },
+        {
+          "extract": {
+            "key": "licensing/dev00/credentials",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "licensing",
+      },
+    },
+  },
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "key": "backend/dev00/credentials",
+            "property": "BM_ENCRYPTION_PASSWORD",
+          },
+          "secretKey": "BM_ENCRYPTION_PASSWORD",
+        },
+        {
+          "remoteRef": {
+            "key": "stackit/dev00/application/readonly-secret",
+            "property": "MONGODB_URI",
+          },
+          "secretKey": "MONGODB_URI",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/dev00-pg-cluster-licensing/credentials",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "event-export",
+      },
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev00 should match snapshot for configmap 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "data": {
+      "APM_ENABLED": "true",
+      "APM_TRANSACTION_SAMPLE_RATE": "0.1",
+      "APM_URL": "https://apm.bettermarks.com",
+      "JWT_VERIFICATION_KEYS": "{"6a8913b1-8e57-436a-9551-0165b5ceaadc":{"format":"pem","desc":"used as public (EC) JWS signature key OF shop service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECK+vuevrAWEJ/pXBlPMfhxlFjT7S\\nXX7f8xxa/6T1xuEBXRlaDI/pNWdHHkeFgoM/QOOX8N3gXI32h/J164lnJw==\\n-----END PUBLIC KEY-----\\n"},"deb57535-a9b6-437c-8ab0-edd24e888d24":{"format":"pem","desc":"used as public (EC) JWS signature key OF hierarchy provider","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEUjGuzKKQf098S+FfEJyw81Bt1z0B\\nS5sg2jF0b+tKGRiW4L/6wwLeXxsrCb4192gVxorIarb17o80BTGmMeaNEw==\\n-----END PUBLIC KEY-----\\n"},"9aac3057-e492-448e-90bf-1404124056b0":{"format":"pem","desc":"used as public (EC) JWS signature key OF ordering service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEldVFYtN5IffED9PrPRHBwFmXHYWK\\ngz9Inj/8651FRWekYyWvkdrvWkNRj5OLOpqtWRXFnRjqdxgeUPPJduajLQ==\\n-----END PUBLIC KEY-----\\n"},"cd07ca32-7d99-44c9-823e-e6103942767e":{"format":"pem","desc":"used as public (EC) JWS signature key OF backoffice service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3ETb4eEvUXQB9zvpfe3z0slDZ+0c\\nF2q3Eb1YTfCnaqE7eHPZ/4SKiwv8TojzJr3+/cImjqFkD4Xie0POo9wLfg==\\n-----END PUBLIC KEY-----\\n"}}",
+      "LICENSING_SERVICE_URL": "https://licensing-dev00.bettermarks.com",
+      "LOG_FORMAT": "json",
+      "LOG_LEVEL": "INFO",
+      "SEGMENT": "dev00",
+    },
+    "immutable": false,
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "licensing-config",
+      "namespace": "licensing",
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev00 should match snapshot for licensing chart 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "app": "licensing-api",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 1,
+          "maxUnavailable": 0,
+        },
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "licensing-api",
+          },
+        },
+        "spec": {
+          "containers": [
+            {
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "httpGet": {
+                  "path": "/livez",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "name": "licensing-api",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                },
+              ],
+              "readinessProbe": {
+                "httpGet": {
+                  "path": "/status",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "resources": {
+                "limits": {
+                  "memory": "128Mi",
+                },
+                "requests": {
+                  "cpu": 0.1,
+                  "memory": "128Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [],
+          "nodeSelector": {
+            "nodetype": "application",
+          },
+          "serviceAccountName": "licensing",
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+          ],
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "kubernetes.io/hostname",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "ports": [
+        {
+          "port": 80,
+          "targetPort": 8000,
+        },
+      ],
+      "selector": {
+        "app": "licensing-api",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev00 should match snapshot for licensing event export cronjob 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": {
+      "name": "licensing-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "concurrencyPolicy": "Forbid",
+      "jobTemplate": {
+        "metadata": {
+          "name": "licensing-event-export",
+          "namespace": "licensing",
+        },
+        "spec": {
+          "backoffLimit": 1,
+          "suspend": false,
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "src/services/licensing/scripts/export_events.py",
+                    "--events-per-run=12000",
+                    "--log-format=json",
+                  ],
+                  "envFrom": [
+                    {
+                      "configMapRef": {
+                        "name": "licensing-config",
+                      },
+                    },
+                    {
+                      "secretRef": {
+                        "name": "event-export",
+                      },
+                    },
+                  ],
+                  "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "licensing-event-export",
+                  "resources": {
+                    "limits": {
+                      "memory": "128Mi",
+                    },
+                    "requests": {
+                      "cpu": 0.1,
+                      "memory": "128Mi",
+                    },
+                  },
+                },
+              ],
+              "nodeSelector": {
+                "nodetype": "application",
+              },
+              "restartPolicy": "Never",
+              "serviceAccountName": "licensing",
+            },
+          },
+          "ttlSecondsAfterFinished": 600,
+        },
+      },
+      "schedule": "*/20 * * * *",
+      "suspend": false,
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev00 should match snapshot for licensing migration job 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "name": "licensing-migration",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "backoffLimit": 1,
+      "template": {
+        "spec": {
+          "containers": [
+            {
+              "args": [
+                "alembic upgrade head",
+              ],
+              "command": [
+                "bash",
+                "-c",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "licensing-migration",
+              "resources": {
+                "limits": {
+                  "memory": "64Mi",
+                },
+                "requests": {
+                  "cpu": 0.025,
+                  "memory": "64Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [
+            {
+              "command": [
+                "sh",
+                "-c",
+                "until pg_isready --host \${DB_HOST}; do sleep 1; done",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "postgres:14",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "wait-for-database-migration",
+              "resources": {
+                "limits": {
+                  "memory": "64Mi",
+                },
+                "requests": {
+                  "cpu": 0.1,
+                  "memory": "64Mi",
+                },
+              },
+            },
+          ],
+          "nodeSelector": {},
+          "restartPolicy": "Never",
+          "serviceAccountName": "licensing",
+        },
+      },
+      "ttlSecondsAfterFinished": 60,
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev00 should match snapshot for service account 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "imagePullSecrets": [
+      {
+        "name": "registry-credentials",
+      },
+    ],
+    "kind": "ServiceAccount",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "Role",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "rules": [
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resources": [
+          "pods",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "RoleBinding",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "Role",
+      "name": "licensing",
+    },
+    "subjects": [
+      {
+        "kind": "ServiceAccount",
+        "name": "licensing",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Licensing at dev01 should match chart for licensing secrets 1`] = `
+[
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-licensing",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "decodingStrategy": "Base64",
+            "key": "licensing/dev01/licensing-service-private-key",
+            "property": "LICENSING_SERVICE_PRIVATE_KEY",
+          },
+          "secretKey": "LICENSING_SERVICE_PRIVATE_KEY",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/dev01-pg-cluster-licensing/credentials",
+          },
+        },
+        {
+          "extract": {
+            "key": "licensing/dev01/credentials",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "licensing",
+      },
+    },
+  },
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "key": "backend/dev01/credentials",
+            "property": "BM_ENCRYPTION_PASSWORD",
+          },
+          "secretKey": "BM_ENCRYPTION_PASSWORD",
+        },
+        {
+          "remoteRef": {
+            "key": "stackit/dev01/application/readonly-secret",
+            "property": "MONGODB_URI",
+          },
+          "secretKey": "MONGODB_URI",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/dev01-pg-cluster-licensing/credentials",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "event-export",
+      },
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev01 should match snapshot for configmap 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "data": {
+      "APM_ENABLED": "true",
+      "APM_TRANSACTION_SAMPLE_RATE": "0.1",
+      "APM_URL": "https://apm.bettermarks.com",
+      "JWT_VERIFICATION_KEYS": "{"6a8913b1-8e57-436a-9551-0165b5ceaadc":{"format":"pem","desc":"used as public (EC) JWS signature key OF shop service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECK+vuevrAWEJ/pXBlPMfhxlFjT7S\\nXX7f8xxa/6T1xuEBXRlaDI/pNWdHHkeFgoM/QOOX8N3gXI32h/J164lnJw==\\n-----END PUBLIC KEY-----\\n"},"deb57535-a9b6-437c-8ab0-edd24e888d24":{"format":"pem","desc":"used as public (EC) JWS signature key OF hierarchy provider","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEUjGuzKKQf098S+FfEJyw81Bt1z0B\\nS5sg2jF0b+tKGRiW4L/6wwLeXxsrCb4192gVxorIarb17o80BTGmMeaNEw==\\n-----END PUBLIC KEY-----\\n"},"9aac3057-e492-448e-90bf-1404124056b0":{"format":"pem","desc":"used as public (EC) JWS signature key OF ordering service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEldVFYtN5IffED9PrPRHBwFmXHYWK\\ngz9Inj/8651FRWekYyWvkdrvWkNRj5OLOpqtWRXFnRjqdxgeUPPJduajLQ==\\n-----END PUBLIC KEY-----\\n"},"cd07ca32-7d99-44c9-823e-e6103942767e":{"format":"pem","desc":"used as public (EC) JWS signature key OF backoffice service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3ETb4eEvUXQB9zvpfe3z0slDZ+0c\\nF2q3Eb1YTfCnaqE7eHPZ/4SKiwv8TojzJr3+/cImjqFkD4Xie0POo9wLfg==\\n-----END PUBLIC KEY-----\\n"}}",
+      "LICENSING_SERVICE_URL": "https://licensing-dev01.bettermarks.com",
+      "LOG_FORMAT": "json",
+      "LOG_LEVEL": "INFO",
+      "SEGMENT": "dev01",
+    },
+    "immutable": false,
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "licensing-config",
+      "namespace": "licensing",
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev01 should match snapshot for licensing chart 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "app": "licensing-api",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 1,
+          "maxUnavailable": 0,
+        },
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "licensing-api",
+          },
+        },
+        "spec": {
+          "containers": [
+            {
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "httpGet": {
+                  "path": "/livez",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "name": "licensing-api",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                },
+              ],
+              "readinessProbe": {
+                "httpGet": {
+                  "path": "/status",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "resources": {
+                "limits": {
+                  "memory": "128Mi",
+                },
+                "requests": {
+                  "cpu": 0.1,
+                  "memory": "128Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [],
+          "nodeSelector": {
+            "nodetype": "application",
+          },
+          "serviceAccountName": "licensing",
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+          ],
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "kubernetes.io/hostname",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "ports": [
+        {
+          "port": 80,
+          "targetPort": 8000,
+        },
+      ],
+      "selector": {
+        "app": "licensing-api",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev01 should match snapshot for licensing event export cronjob 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": {
+      "name": "licensing-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "concurrencyPolicy": "Forbid",
+      "jobTemplate": {
+        "metadata": {
+          "name": "licensing-event-export",
+          "namespace": "licensing",
+        },
+        "spec": {
+          "backoffLimit": 1,
+          "suspend": false,
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "src/services/licensing/scripts/export_events.py",
+                    "--events-per-run=12000",
+                    "--log-format=json",
+                  ],
+                  "envFrom": [
+                    {
+                      "configMapRef": {
+                        "name": "licensing-config",
+                      },
+                    },
+                    {
+                      "secretRef": {
+                        "name": "event-export",
+                      },
+                    },
+                  ],
+                  "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "licensing-event-export",
+                  "resources": {
+                    "limits": {
+                      "memory": "128Mi",
+                    },
+                    "requests": {
+                      "cpu": 0.1,
+                      "memory": "128Mi",
+                    },
+                  },
+                },
+              ],
+              "nodeSelector": {
+                "nodetype": "application",
+              },
+              "restartPolicy": "Never",
+              "serviceAccountName": "licensing",
+            },
+          },
+          "ttlSecondsAfterFinished": 600,
+        },
+      },
+      "schedule": "*/20 * * * *",
+      "suspend": false,
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev01 should match snapshot for licensing migration job 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "name": "licensing-migration",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "backoffLimit": 1,
+      "template": {
+        "spec": {
+          "containers": [
+            {
+              "args": [
+                "alembic upgrade head",
+              ],
+              "command": [
+                "bash",
+                "-c",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "licensing-migration",
+              "resources": {
+                "limits": {
+                  "memory": "64Mi",
+                },
+                "requests": {
+                  "cpu": 0.025,
+                  "memory": "64Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [
+            {
+              "command": [
+                "sh",
+                "-c",
+                "until pg_isready --host \${DB_HOST}; do sleep 1; done",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "postgres:14",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "wait-for-database-migration",
+              "resources": {
+                "limits": {
+                  "memory": "64Mi",
+                },
+                "requests": {
+                  "cpu": 0.1,
+                  "memory": "64Mi",
+                },
+              },
+            },
+          ],
+          "nodeSelector": {},
+          "restartPolicy": "Never",
+          "serviceAccountName": "licensing",
+        },
+      },
+      "ttlSecondsAfterFinished": 60,
+    },
+  },
+]
+`;
+
+exports[`Licensing at dev01 should match snapshot for service account 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "imagePullSecrets": [
+      {
+        "name": "registry-credentials",
+      },
+    ],
+    "kind": "ServiceAccount",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "Role",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "rules": [
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resources": [
+          "pods",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "RoleBinding",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "Role",
+      "name": "licensing",
+    },
+    "subjects": [
+      {
+        "kind": "ServiceAccount",
+        "name": "licensing",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Licensing at pro00 should match chart for licensing secrets 1`] = `
+[
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-licensing",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "decodingStrategy": "Base64",
+            "key": "licensing/pro00/licensing-service-private-key",
+            "property": "LICENSING_SERVICE_PRIVATE_KEY",
+          },
+          "secretKey": "LICENSING_SERVICE_PRIVATE_KEY",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/pro00-pg-cluster-licensing/credentials",
+          },
+        },
+        {
+          "extract": {
+            "key": "licensing/pro00/credentials",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "licensing",
+      },
+    },
+  },
+  {
+    "apiVersion": "external-secrets.io/v1beta1",
+    "kind": "ExternalSecret",
+    "metadata": {
+      "name": "ext-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "data": [
+        {
+          "remoteRef": {
+            "decodingStrategy": "Base64",
+            "key": "ionos/pro00-sdwh/rsa-private-key",
+            "property": "SDWH_HOST_PRIVATE_KEY",
+          },
+          "secretKey": "SDWH_HOST_PRIVATE_KEY",
+        },
+        {
+          "remoteRef": {
+            "key": "ionos/pro00-sdwh/reader-password",
+            "property": "SDWH_POSTGRES_SECRET",
+          },
+          "secretKey": "SDWH_POSTGRES_SECRET",
+        },
+        {
+          "remoteRef": {
+            "key": "pro_event_api_key_secret",
+            "property": "DATA_EVENT_API_KEY",
+          },
+          "secretKey": "DATA_EVENT_API_KEY",
+        },
+        {
+          "remoteRef": {
+            "key": "backend/pro00/credentials",
+            "property": "BM_ENCRYPTION_PASSWORD",
+          },
+          "secretKey": "BM_ENCRYPTION_PASSWORD",
+        },
+        {
+          "remoteRef": {
+            "key": "stackit/pro00/application/readonly-secret",
+            "property": "MONGODB_URI",
+          },
+          "secretKey": "MONGODB_URI",
+        },
+      ],
+      "dataFrom": [
+        {
+          "extract": {
+            "key": "stackit/pro00-pg-cluster-licensing/credentials",
+          },
+        },
+        {
+          "extract": {
+            "key": "ionos/pro00-sdwh/private-ip",
+          },
+        },
+      ],
+      "refreshInterval": "1h",
+      "secretStoreRef": {
+        "kind": "ClusterSecretStore",
+        "name": "stackit-secrets-manager",
+      },
+      "target": {
+        "name": "event-export",
+      },
+    },
+  },
+]
+`;
+
+exports[`Licensing at pro00 should match snapshot for configmap 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "data": {
+      "APM_ENABLED": "true",
+      "APM_TRANSACTION_SAMPLE_RATE": "0.1",
+      "APM_URL": "https://apm.bettermarks.com",
+      "DATA_EVENT_API_URL": "https://data.bettermarks.com/events",
+      "EVENTS_EXPORT_EXPORT_HOOK": "services.licensing.export.bettermarks_export.modified_event",
+      "EVENTS_EXPORT_FUNCTION": "services.licensing.export.bettermarks_export.export_event",
+      "JWT_VERIFICATION_KEYS": "{"4b1cc728-5828-4639-8a27-a860dbd87aba":{"format":"pem","desc":"used as public (EC) JWS signature key OF shop service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEUzo1cWp0LxhL6xRHUjX9LylocdWK\\nCuGlz/Y7+1hawKFPcw7ZoeBCVDHUPYh9TGknnNIQHfkPZguwUUWPz2gpCA==\\n-----END PUBLIC KEY-----\\n"},"6a51f17d-7187-4408-a9bb-2c267cf2be78":{"format":"pem","desc":"used as public (EC) JWS signature key OF hierarchy provider","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+TFRZVMMoK3y8ui+hSdLxjtmnwCP\\ntHE8J1dsCduCSfhETqq9SgXKDks8KMkeYUmy2ykmWdyAmKydEwizTD4RDw==\\n-----END PUBLIC KEY-----\\n"},"9aac3057-e492-448e-90bf-1404124056b0":{"format":"pem","desc":"used as public (EC) JWS signature key OF ordering service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEldVFYtN5IffED9PrPRHBwFmXHYWK\\ngz9Inj/8651FRWekYyWvkdrvWkNRj5OLOpqtWRXFnRjqdxgeUPPJduajLQ==\\n-----END PUBLIC KEY-----\\n"},"72afe436-6b79-43a9-ae04-82d6af25f6ff":{"format":"pem","desc":"used as public (EC) JWS signature key OF backoffice service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE4rQ1KsDrKZ2n5qyQyFRmGuEY8kI6\\nx/x5t9ZnIyR96Dwr9uyPU9C5wSENDG95dlSgqgTTGDftBcavsP1DjhcydQ==\\n-----END PUBLIC KEY-----"}}",
+      "LICENSING_SERVICE_URL": "https://licensing.bettermarks.com",
+      "LOG_FORMAT": "json",
+      "LOG_LEVEL": "INFO",
+      "SDWH_DB_HOST": "localhost",
+      "SDWH_DB_NAME": "bmsdwh",
+      "SDWH_DB_PORT": "5432",
+      "SDWH_DB_USER": "bmsdwhbiuser",
+      "SDWH_PORT": "22",
+      "SDWH_USER": "ionos",
+      "SEGMENT": "pro00",
+    },
+    "immutable": false,
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "licensing-config",
+      "namespace": "licensing",
+    },
+  },
+]
+`;
+
+exports[`Licensing at pro00 should match snapshot for licensing chart 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "replicas": 4,
+      "selector": {
+        "matchLabels": {
+          "app": "licensing-api",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 1,
+          "maxUnavailable": 0,
+        },
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "licensing-api",
+          },
+        },
+        "spec": {
+          "containers": [
+            {
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "httpGet": {
+                  "path": "/livez",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "name": "licensing-api",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                },
+              ],
+              "readinessProbe": {
+                "httpGet": {
+                  "path": "/status",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "resources": {
+                "limits": {
+                  "memory": "512Mi",
+                },
+                "requests": {
+                  "cpu": 0.25,
+                  "memory": "512Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [],
+          "nodeSelector": {
+            "nodetype": "application",
+          },
+          "serviceAccountName": "licensing",
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+          ],
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "kubernetes.io/hostname",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "ports": [
+        {
+          "port": 80,
+          "targetPort": 8000,
+        },
+      ],
+      "selector": {
+        "app": "licensing-api",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;
+
+exports[`Licensing at pro00 should match snapshot for licensing event export cronjob 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": {
+      "name": "licensing-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "concurrencyPolicy": "Forbid",
+      "jobTemplate": {
+        "metadata": {
+          "name": "licensing-event-export",
+          "namespace": "licensing",
+        },
+        "spec": {
+          "backoffLimit": 1,
+          "suspend": false,
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "src/services/licensing/scripts/export_events.py",
+                    "--events-per-run=12000",
+                    "--log-format=json",
+                  ],
+                  "envFrom": [
+                    {
+                      "configMapRef": {
+                        "name": "licensing-config",
+                      },
+                    },
+                    {
+                      "secretRef": {
+                        "name": "event-export",
+                      },
+                    },
+                  ],
+                  "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "licensing-event-export",
+                  "resources": {
+                    "limits": {
+                      "memory": "256Mi",
+                    },
+                    "requests": {
+                      "cpu": 0.3,
+                      "memory": "256Mi",
+                    },
+                  },
+                },
+              ],
+              "nodeSelector": {
+                "nodetype": "application",
+              },
+              "restartPolicy": "Never",
+              "serviceAccountName": "licensing",
+            },
+          },
+          "ttlSecondsAfterFinished": 600,
+        },
+      },
+      "schedule": "*/20 * * * *",
+      "suspend": false,
+    },
+  },
+]
+`;
+
+exports[`Licensing at pro00 should match snapshot for licensing migration job 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "name": "licensing-migration",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "backoffLimit": 1,
+      "template": {
+        "spec": {
+          "containers": [
+            {
+              "args": [
+                "alembic upgrade head",
+              ],
+              "command": [
+                "bash",
+                "-c",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/licensing:latest",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "licensing-migration",
+              "resources": {
+                "limits": {
+                  "memory": "128Mi",
+                },
+                "requests": {
+                  "cpu": 0.05,
+                  "memory": "128Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [
+            {
+              "command": [
+                "sh",
+                "-c",
+                "until pg_isready --host \${DB_HOST}; do sleep 1; done",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "postgres:14",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "wait-for-database-migration",
+              "resources": {
+                "limits": {
+                  "memory": "64Mi",
+                },
+                "requests": {
+                  "cpu": 0.1,
+                  "memory": "64Mi",
+                },
+              },
+            },
+          ],
+          "nodeSelector": {},
+          "restartPolicy": "Never",
+          "serviceAccountName": "licensing",
+        },
+      },
+      "ttlSecondsAfterFinished": 60,
+    },
+  },
+]
+`;
+
+exports[`Licensing at pro00 should match snapshot for service account 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "imagePullSecrets": [
+      {
+        "name": "registry-credentials",
+      },
+    ],
+    "kind": "ServiceAccount",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "Role",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "rules": [
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resources": [
+          "pods",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "RoleBinding",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "Role",
+      "name": "licensing",
+    },
+    "subjects": [
+      {
+        "kind": "ServiceAccount",
+        "name": "licensing",
+      },
+    ],
+  },
+]
+`;
+
+exports[`licensing at loc00 should match chart for licensing secrets 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "immutable": false,
+    "kind": "Secret",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "stringData": {
+      "APM_SECRET_TOKEN": "",
+      "DB_HOST": "licensing-db",
+      "DB_NAME": "postgres",
+      "DB_PASSWORD": "postgres",
+      "DB_PORT": "5432",
+      "DB_USER": "postgres",
+      "LICENSING_SERVICE_KID": "f72e2e28-a232-411c-a5ad-34a18480aa10",
+      "LICENSING_SERVICE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgrCkyWdmYFh6plKVx
+gypQFWoVJ1LOOBdr+36LhulS85ShRANCAAQ5nWN+SnvwJ4Xt2z9EtJl1BkUjWFY5
+PuM88BLOTlEjn6Win2uqSn5JdFVPsn7r9h+O9HAnrSBWUaNRghpkVwuZ
+-----END PRIVATE KEY-----",
+      "POSTGRES_DB": "postgres",
+      "POSTGRES_PASSWORD": "postgres",
+      "POSTGRES_USER": "postgres",
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "immutable": false,
+    "kind": "Secret",
+    "metadata": {
+      "name": "event-export",
+      "namespace": "licensing",
+    },
+    "stringData": {
+      "DATA_EVENT_API_KEY": "",
+      "DATA_EVENT_API_SECRET": "",
+      "DB_HOST": "licensing-db",
+      "DB_NAME": "postgres",
+      "DB_PASSWORD": "postgres",
+      "DB_PORT": "5432",
+      "DB_USER": "postgres",
+      "MONGODB_URI": "",
+      "POSTGRES_DB": "postgres",
+      "POSTGRES_PASSWORD": "postgres",
+      "POSTGRES_USER": "postgres",
+      "SDWH_HOST_PRIVATE_KEY": "",
+      "SDWH_POSTGRES_SECRET": "",
+      "SDWH_PRIVATE_IP": "127.0.0.1",
+    },
+  },
+]
+`;
+
+exports[`licensing at loc00 should match snapshot for configmap 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "data": {
+      "APM_ENABLED": "false",
+      "APM_TRANSACTION_SAMPLE_RATE": "0.1",
+      "APM_URL": "",
+      "EVENTS_EXPORT_FUNCTION": "services.licensing.export.mock_export.export_event",
+      "JWT_VERIFICATION_KEYS": "{"3e94b29d-c4fe-4f19-b627-dcb62f112a01":{"format":"pem","desc":"used as public (EC) JWS signature key OF shop service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEPRHRuf4kEGKdYllznwF2w4T6K954\\n/ltQbQZmzqDZ6WVhtfGm0ncQyv58E/uIu5UAYl55Nzprhbi+5leVyFsnaQ==\\n-----END PUBLIC KEY-----\\n"},"8a210c1b-1020-4835-a0c5-2c0b31c90095":{"format":"pem","desc":"used as public (EC) JWS signature key OF hierarchy provider","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEpZa2khO++tAJJWjWXSWVnZ1wGl9P\\nQajoLhpNGJGWJmFy4+lYyMC9g/R3ZaoAjYXwbOi2tNl4ROYqWsZGEvmgig==\\n-----END PUBLIC KEY-----\\n"},"9aac3057-e492-448e-90bf-1404124056b0":{"format":"pem","desc":"used as public (EC) JWS signature key OF ordering service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEldVFYtN5IffED9PrPRHBwFmXHYWK\\ngz9Inj/8651FRWekYyWvkdrvWkNRj5OLOpqtWRXFnRjqdxgeUPPJduajLQ==\\n-----END PUBLIC KEY-----\\n"},"d31c2005-cd17-4dd3-93fc-0bc07c4318da":{"format":"pem","desc":"used as public (EC) JWS signature key OF backoffice service","key":"-----BEGIN PUBLIC KEY-----\\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEzSUdN8X3yf6V4NdhCHsP2mQdcZKA\\n+uJWbcPr8YDjBDK4VOCaYm+WV3ce1yKFgqmXYZZEIdz5XIIPw7/zNdiJLQ==\\n-----END PUBLIC KEY-----\\n"}}",
+      "LICENSING_SERVICE_URL": "https://licensing.bettermarks.loc",
+      "LOG_FORMAT": "console",
+      "LOG_LEVEL": "DEBUG",
+      "SEGMENT": "loc00",
+    },
+    "immutable": false,
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "licensing-config",
+      "namespace": "licensing",
+    },
+  },
+]
+`;
+
+exports[`licensing at loc00 should match snapshot for licensing chart 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "app": "licensing-api",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 1,
+          "maxUnavailable": 0,
+        },
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "licensing-api",
+          },
+        },
+        "spec": {
+          "containers": [
+            {
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "licensing",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "httpGet": {
+                  "path": "/livez",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "name": "licensing-api",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                },
+              ],
+              "readinessProbe": {
+                "httpGet": {
+                  "path": "/status",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "resources": {},
+            },
+          ],
+          "initContainers": [],
+          "serviceAccountName": "licensing",
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "ports": [
+        {
+          "port": 80,
+          "targetPort": 8000,
+        },
+      ],
+      "selector": {
+        "app": "licensing-api",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;
+
+exports[`licensing at loc00 should match snapshot for licensing event export cronjob 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "CronJob",
+    "metadata": {
+      "name": "licensing-event-export",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "concurrencyPolicy": "Forbid",
+      "jobTemplate": {
+        "metadata": {
+          "name": "licensing-event-export",
+          "namespace": "licensing",
+        },
+        "spec": {
+          "backoffLimit": 1,
+          "suspend": false,
+          "template": {
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "src/services/licensing/scripts/export_events.py",
+                    "--events-per-run=12000",
+                    "--log-format=console",
+                  ],
+                  "envFrom": [
+                    {
+                      "configMapRef": {
+                        "name": "licensing-config",
+                      },
+                    },
+                    {
+                      "secretRef": {
+                        "name": "event-export",
+                      },
+                    },
+                  ],
+                  "image": "licensing",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "licensing-event-export",
+                  "resources": {},
+                },
+              ],
+              "restartPolicy": "Never",
+              "serviceAccountName": "licensing",
+            },
+          },
+          "ttlSecondsAfterFinished": 600,
+        },
+      },
+      "schedule": "*/20 * * * *",
+      "suspend": false,
+    },
+  },
+]
+`;
+
+exports[`licensing at loc00 should match snapshot for licensing migration job 1`] = `
+[
+  {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "name": "licensing-migration",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "backoffLimit": 1,
+      "template": {
+        "spec": {
+          "containers": [
+            {
+              "args": [
+                "alembic upgrade head",
+              ],
+              "command": [
+                "bash",
+                "-c",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "licensing",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "licensing-migration",
+              "resources": {},
+            },
+          ],
+          "initContainers": [
+            {
+              "command": [
+                "sh",
+                "-c",
+                "until pg_isready --host \${DB_HOST}; do sleep 1; done",
+              ],
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-config",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "postgres:14",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "wait-for-database-migration",
+              "resources": {
+                "limits": {
+                  "memory": "64Mi",
+                },
+                "requests": {
+                  "cpu": 0.1,
+                  "memory": "64Mi",
+                },
+              },
+            },
+          ],
+          "nodeSelector": {},
+          "restartPolicy": "Never",
+          "serviceAccountName": "licensing",
+        },
+      },
+      "ttlSecondsAfterFinished": 60,
+    },
+  },
+]
+`;
+
+exports[`licensing at loc00 should match snapshot for local ingress chart 1`] = `
+[
+  {
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": {
+      "name": "licensing-ingress",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "ingressClassName": "loc00-nginx",
+      "rules": [
+        {
+          "host": "licensing.bettermarks.loc",
+          "http": {
+            "paths": [
+              {
+                "backend": {
+                  "service": {
+                    "name": "licensing-api",
+                    "port": {
+                      "number": 80,
+                    },
+                  },
+                },
+                "path": "/",
+                "pathType": "Prefix",
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+]
+`;
+
+exports[`licensing at loc00 should match snapshot for mongodb chart 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "immutable": false,
+    "kind": "ConfigMap",
+    "metadata": {
+      "name": "licensing-db-init-db-script",
+      "namespace": "licensing",
+    },
+  },
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "labels": {
+        "app": "licensing-db",
+      },
+      "name": "licensing-db",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "app": "licensing-db",
+        },
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "licensing-db",
+          },
+        },
+        "spec": {
+          "containers": [
+            {
+              "envFrom": [
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "postgres:14",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "initialDelaySeconds": 10,
+                "tcpSocket": {
+                  "port": 5432,
+                },
+              },
+              "name": "licensing-db",
+              "ports": [
+                {
+                  "containerPort": 5432,
+                },
+              ],
+              "readinessProbe": {
+                "initialDelaySeconds": 10,
+                "tcpSocket": {
+                  "port": 5432,
+                },
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/docker-entrypoint-initdb.d/",
+                  "name": "licensing-db-init-db-script-volume",
+                },
+              ],
+            },
+          ],
+          "volumes": [
+            {
+              "configMap": {
+                "name": "licensing-db-init-db-script",
+              },
+              "name": "licensing-db-init-db-script-volume",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "licensing-db",
+      "namespace": "licensing",
+    },
+    "spec": {
+      "ports": [
+        {
+          "port": 5432,
+        },
+      ],
+      "selector": {
+        "app": "licensing-db",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;
+
+exports[`licensing at loc00 should match snapshot for service account 1`] = `
+[
+  {
+    "apiVersion": "v1",
+    "imagePullSecrets": [],
+    "kind": "ServiceAccount",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "Role",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "rules": [
+      {
+        "apiGroups": [
+          "",
+        ],
+        "resources": [
+          "pods",
+        ],
+        "verbs": [
+          "get",
+          "list",
+          "watch",
+        ],
+      },
+    ],
+  },
+  {
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "RoleBinding",
+    "metadata": {
+      "name": "licensing",
+      "namespace": "licensing",
+    },
+    "roleRef": {
+      "apiGroup": "rbac.authorization.k8s.io",
+      "kind": "Role",
+      "name": "licensing",
+    },
+    "subjects": [
+      {
+        "kind": "ServiceAccount",
+        "name": "licensing",
+      },
+    ],
+  },
+]
+`;

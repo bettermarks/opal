@@ -104,7 +104,7 @@ async def create_license(
               message in case of an error
     """
     async with transaction_manager() as tm:
-        license_ = await LicensingService(repository(tm.session)).create_license(
+        license_dict = await LicensingService(repository(tm.session)).create_license(
             hierarchy_provider_uri=data.hierarchy_provider_uri,
             manager_eid=data.manager_eid,
             product_eid=data.product_eid,
@@ -123,10 +123,10 @@ async def create_license(
             logger.info(
                 "Successfully created license",
                 is_trial=False,
-                uuid=license_["uuid"],
-                product=license_["product_eid"],
-                owner_type=license_["owner_type"],
-                nof_seats=license_["nof_seats"],
+                uuid=license_dict["uuid"],
+                product=license_dict["product_eid"],
+                owner_type=license_dict["owner_type"],
+                nof_seats=license_dict["nof_seats"],
             )
         except DuplicateEntryException:
             raise HTTPException(
@@ -137,7 +137,7 @@ async def create_license(
                     "already exists"
                 ),
             )
-        return LicenseCreatedSchema.parse_obj(license_) if license_ else None
+        return LicenseCreatedSchema.parse_obj(license_dict)
 
 
 @router.get("/licenses/{license_uuid}", status_code=http_status.HTTP_200_OK)
@@ -180,3 +180,13 @@ async def update_license(
             payload["filter_restrictions"],
             **license_update.dict(exclude_unset=True)
         )
+
+
+@router.delete("/licenses/{license_uuid}", status_code=http_status.HTTP_200_OK)
+async def delete_license(
+    license_uuid: str,
+    token_data: Tuple[str, Dict[str, Any]] = Depends(authorize_with_admin_token),
+) -> None:
+    async with transaction_manager() as tm:
+        await LicensingService(repository(tm.session)).delete_license(license_uuid)
+        await tm.commit()

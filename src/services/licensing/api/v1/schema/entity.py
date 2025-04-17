@@ -1,4 +1,4 @@
-from pydantic import BaseModel as BaseSchema
+from services.licensing.api.v1.schema.base import BaseSchema
 
 
 class EntitySchema(BaseSchema):

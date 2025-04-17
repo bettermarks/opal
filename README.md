@@ -113,15 +113,20 @@ We build a licensing service which combines the need of licensing on different l
 
 ## K8S
 Best practice is to run the application in a local k8s cluster. Please see <a href="k8s/README.md">k8s/README.md</a>:
-### Initialization
+
+#### Using Tilt
+##### Installation
+https://docs.tilt.dev/install
 ```bash
-make k8s_install
-make k8s_synth
-make init
+curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash
 ```
-#### Starting
+##### Starting
 ```bash
-make start
+tilt up
+```
+##### Stopping
+```bash
+tilt down
 ```
 
 ## Manually
@@ -143,10 +148,24 @@ on your local postgreSQL database using the SQL query
 CREATE DATABASE licm;
 ```
 
-## Run uvicorn
+### Install dependencies
+
+We rely on <https://github.com/astral-sh/uv> to manage the project and its dependencies:
+
+#### Create env
+```shell
+uv venv
+source .venv/bin/activate
+```
+
+#### Sync your env
+```shell
+uv sync --extra export
+```
+
+### Run uvicorn
 You can start the application using the following commands:
 ```sh
-cd <licensing>
 export PYTHONPATH=$PWD/src
 uvicorn services.licensing.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
 ```

@@ -8,28 +8,29 @@
   "scripts": {
     "import": "cdk8s import",
     "synth": "cdk8s synth",
-    "compile": "tsc --build",
-    "watch": "tsc --build -w",
+    "compile": "tsc",
+    "watch": "tsc -w",
     "test": "jest",
     "build": "npm run test && npm run synth",
     "upgrade": "npm i cdk8s@latest cdk8s-cli@latest",
     "upgrade:next": "npm i cdk8s@next cdk8s-cli@next",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --plugin=@trivago/prettier-plugin-sort-imports --write ."
   },
   "dependencies": {
-    "cdk8s": "2.64.2",
-    "cdk8s-plus-27": "2.7.0",
-    "constructs": "10.2.70",
-    "prettier": "3.3.3",
-    "ts-node": "10.9.1",
-    "utility-types": "3.10.0"
+    "@trivago/prettier-plugin-sort-imports": "5.2.1",
+    "cdk8s": "2.69.32",
+    "cdk8s-plus-29": "2.5.17",
+    "constructs": "10.4.2",
+    "prettier": "3.4.2",
+    "ts-node": "10.9.2",
+    "utility-types": "3.11.0"
   },
   "devDependencies": {
-    "@types/jest": "29.5.12",
-    "@types/node": "18.18.4",
-    "cdk8s-cli": "2.70.0",
+    "@types/jest": "29.5.14",
+    "@types/node": "18.19.70",
+    "cdk8s-cli": "2.198.293",
     "jest": "29.7.0",
     "ts-jest": "29.2.5",
-    "typescript": "5.6.2"
+    "typescript": "5.7.2"
   }
 }

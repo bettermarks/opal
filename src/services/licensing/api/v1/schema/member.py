@@ -5,12 +5,12 @@ class MembershipsSchema(BaseSchema):
     memberships: list
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "examples": [
                 {
                     "memberships": [
                         {
-                            "eid": "1@DE_test",
+                            "eid": "1@DE_bettermarks",
                             "name": "Cypress test class 11",
                             "type": "class",
                             "level": "1",

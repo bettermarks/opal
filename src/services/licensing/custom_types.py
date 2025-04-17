@@ -67,6 +67,7 @@ class License:
     valid_to: datetime.date
     nof_seats: int
     nof_free_seats: int
+    nof_occupied_seats: int
     extra_seats: int
     is_trial: bool
     notes: str

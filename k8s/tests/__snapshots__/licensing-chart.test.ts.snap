@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`licensing-chart should match with snapshot 1`] = `
+[
+  {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "dummy-namespace",
+    },
+    "spec": {
+      "replicas": 1,
+      "selector": {
+        "matchLabels": {
+          "app": "licensing-api",
+        },
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 1,
+          "maxUnavailable": 0,
+        },
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "licensing-api",
+          },
+        },
+        "spec": {
+          "containers": [
+            {
+              "envFrom": [
+                {
+                  "configMapRef": {
+                    "name": "licensing-configmap",
+                  },
+                },
+                {
+                  "secretRef": {
+                    "name": "licensing",
+                  },
+                },
+              ],
+              "image": "676249682729.dkr.ecr.eu-central-1.amazonaws.com/bm-glu:e6b588df29edbf984d876e195bdaee5230c5ad92",
+              "imagePullPolicy": "IfNotPresent",
+              "livenessProbe": {
+                "httpGet": {
+                  "path": "/livez",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "name": "licensing-api",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                },
+              ],
+              "readinessProbe": {
+                "httpGet": {
+                  "path": "/status",
+                  "port": 8000,
+                },
+                "initialDelaySeconds": 10,
+                "timeoutSeconds": 3,
+              },
+              "resources": {
+                "limits": {
+                  "memory": "128Mi",
+                },
+                "requests": {
+                  "cpu": 0.1,
+                  "memory": "128Mi",
+                },
+              },
+            },
+          ],
+          "initContainers": [],
+          "nodeSelector": {
+            "nodetype": "application",
+          },
+          "serviceAccountName": "dummy-service-account",
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 20,
+            },
+          ],
+          "topologySpreadConstraints": [
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "topology.kubernetes.io/zone",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+            {
+              "labelSelector": {
+                "matchLabels": {
+                  "app": "licensing-api",
+                },
+              },
+              "matchLabelKeys": [
+                "pod-template-hash",
+              ],
+              "maxSkew": 1,
+              "nodeAffinityPolicy": "Honor",
+              "nodeTaintsPolicy": "Honor",
+              "topologyKey": "kubernetes.io/hostname",
+              "whenUnsatisfiable": "ScheduleAnyway",
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "name": "licensing-api",
+      "namespace": "dummy-namespace",
+    },
+    "spec": {
+      "ports": [
+        {
+          "port": 80,
+          "targetPort": 8000,
+        },
+      ],
+      "selector": {
+        "app": "licensing-api",
+      },
+      "type": "ClusterIP",
+    },
+  },
+]
+`;

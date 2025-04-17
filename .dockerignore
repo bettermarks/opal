@@ -1,0 +1,15 @@
+# ignore all
+*
+
+# unignore image-related
+!src/
+!tests/
+!alembic.ini
+!SHA.txt
+!LICENSE
+!pytest.ini
+!pyproject.toml
+!README.md
+!uv.lock
+!uvicorn_disable_logging.json
+!VERSION

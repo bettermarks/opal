@@ -86,7 +86,25 @@ async def get_accessible_products(
     )
 
 
-@router.post("/licenses/trial", status_code=http_status.HTTP_201_CREATED)
+@router.post(
+    "/licenses/trial",
+    status_code=http_status.HTTP_201_CREATED,
+    responses={
+        409: {
+            "description": "Duplicate Error",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": (
+                            "Trial license creation failed:"
+                            " A trial license for this entity already exists"
+                        ),
+                    },
+                },
+            },
+        },
+    },
+)
 async def create_trial_license(
     data: LicenseTrialSchema,
     token_data: Tuple[str, Dict[str, Any]] = Depends(authorize_with_memberships_token),
@@ -112,6 +130,11 @@ async def create_trial_license(
 
     # Do the actual check, if the owner EID is part of the memberships.
     if Entity(type_=data.owner_type, eid=data.owner_eid) not in memberships:
+        logger.warn(
+            "license owner does not match any users membership",
+            owner_type=data.owner_type,
+            owner_eid=data.owner_eid,
+        )
         raise HTTPException(
             status_code=http_status.HTTP_422_UNPROCESSABLE_ENTITY,
             message=(
@@ -140,7 +163,7 @@ async def create_trial_license(
                     "A trial license for this entity already exists"
                 ),
             )
-        license_ = await LicensingService(repository(tm.session)).create_license(
+        license_dict = await LicensingService(repository(tm.session)).create_license(
             hierarchy_provider_uri=payload["iss"],
             manager_eid=payload["sub"],
             product_eid=data.product_eid,
@@ -158,10 +181,10 @@ async def create_trial_license(
             logger.info(
                 "Successfully created license",
                 is_trial=True,
-                uuid=license_["uuid"],
-                product=license_["product_eid"],
-                owner_type=license_["owner_type"],
-                nof_seats=license_["nof_seats"],
+                uuid=license_dict["uuid"],
+                product=license_dict["product_eid"],
+                owner_type=license_dict["owner_type"],
+                nof_seats=license_dict["nof_seats"],
             )
         except DuplicateEntryException:
             raise HTTPException(
@@ -171,7 +194,7 @@ async def create_trial_license(
                     "A license with these properties already exists"
                 ),
             )
-    return license_
+    return LicenseCreatedSchema.parse_obj(license_dict)
 
 
 @router.post("/licenses", status_code=http_status.HTTP_200_OK)
@@ -187,9 +210,9 @@ async def get_available_licenses(
     ### Example Bearer Token structure
     ```
     {
-        "iss": "https://your-domain.com/ucm",
+        "iss": "https://acc.bettermarks.com/ucm",
         "exp": 1701799583.393268,
-        "sub": "3@DE_tesyt",
+        "sub": "3@DE_bettermarks",
         "iat": 1701798983.393283,
         "jti": "77ab5b01-83a0-44f3-a086-d25162aae84e",
         "hashes": {

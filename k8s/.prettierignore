@@ -1,0 +1,8 @@
+dist
+imports
+loc00
+node_modules
+tests/__snapshots__
+jest.config.js
+*.yaml
+*.json

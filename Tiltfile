@@ -1,14 +1,11 @@
 local("make dist", dir="k8s")
 
 # Create namespace if it doesn't exist
-local(
-    "kubectl get namespace integration --no-headers || kubectl create namespace integration"
-)
+local("kubectl get namespace integration --no-headers || kubectl create namespace integration")
 k8s_yaml(listdir(os.path.join("k8s", "dist")))
 
 k8s_resource(
     objects=[
-        "licensing:namespace",
         "licensing:serviceaccount:licensing",
         "licensing:role:licensing",
         "licensing:rolebinding:licensing",

@@ -23,7 +23,7 @@ dependencies = [
 	"python-dateutil==2.9.0.post0",
 	"python-decouple==3.8",
 	"pyyaml==6.0.2",
-	"requests==2.32.3",
+	"requests==2.32.4",
 	"SQLAlchemy[asyncio]==2.0.36",
 	"structlog==24.4.0",
 	"uvicorn==0.34.0",

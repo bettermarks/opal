@@ -11,7 +11,7 @@ dependencies = [
 	"asgi-correlation-id==4.3.4",
 	"asyncpg==0.30.0",
 	"click==8.1.8",
-	"cryptography==42.0.7",
+	"cryptography==44.0.1",
 	"elastic-apm==6.23.0",
 	"fastapi==0.115.6",
 	"fastapi-pagination==0.12.34",

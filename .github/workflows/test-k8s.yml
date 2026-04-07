@@ -14,7 +14,7 @@ on:
 
 jobs:
   cdk8s-tests:
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./k8s
@@ -34,7 +34,7 @@ jobs:
         run: npm run build
 
   tilt-check:
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     needs:
       - cdk8s-tests
     steps:

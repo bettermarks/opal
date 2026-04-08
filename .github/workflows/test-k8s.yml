@@ -5,12 +5,12 @@ on:
     paths:
       - k8s/**
       - Tiltfile
-    branches: [master]
+    branches: [main]
   push:
     paths:
       - k8s/**
       - Tiltfile
-    branches: [master]
+    branches: [main]
 
 jobs:
   cdk8s-tests:

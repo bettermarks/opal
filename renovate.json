@@ -13,6 +13,12 @@
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
       "rebaseWhen": "auto"
+    },
+    {
+      "description": "Update node version in .nvmrc file",
+      "matchManagers": ["nvm"],
+      "matchFileNames": ["k8s/.nvmrc"],
+      "versioning": "node"
     }
   ]
 }

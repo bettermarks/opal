@@ -1,8 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>bettermarks/renovate-config:javascript",
-    "github>bettermarks/renovate-config:python"
+    "github>bettermarks/renovate-config:python-k8s"
   ],
   "constraints": {
     "python": "==3.11"

@@ -40,7 +40,7 @@ dev = [
 	"commitizen==4.1.0",
 	"freezegun==1.5.1",
 	"mock==5.1.0",
-	"pytest==8.3.4",
+	"pytest==9.0.3",
 	"pytest-anything==0.1.4",
 	"pytest_asyncio==0.25.1",
 	"pytest-cov==6.0.0",

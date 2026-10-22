@@ -6,7 +6,7 @@ FROM python:${python_version}-slim-bookworm AS dependencies
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV UV_PROJECT_ENVIRONMENT=/venv
-COPY --from=ghcr.io/astral-sh/uv:0.6.10 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.13.5 /uv /uvx /bin/
 
 WORKDIR /code
 COPY ./pyproject.toml .
@@ -17,7 +17,7 @@ RUN uv venv && uv sync --frozen --no-dev --no-install-project
 # INFO: we take the virtual env and add the project itself
 FROM python:${python_version}-slim-bookworm AS build
 ENV UV_PROJECT_ENVIRONMENT=/venv
-COPY --from=ghcr.io/astral-sh/uv:0.6.10 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.13.5 /uv /uvx /bin/
 COPY --from=dependencies /venv /venv 
 
 WORKDIR /code
